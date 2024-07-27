@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_master/quiz_generation_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,15 +8,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Quiz Master',
-      home: Scaffold(
-        body: Center(
-          child: Text('Welcome to Quiz Master oo'),
-        ),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      home: const QuizGenerationScreen(),
     );
   }
 }

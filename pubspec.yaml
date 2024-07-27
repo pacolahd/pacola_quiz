@@ -1,5 +1,5 @@
 name: quiz_master
-description: "AI powered quiz application"
+description: "AI Powered Personalized Quiz Generator for Students."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: '>=3.4.1 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,6 +35,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  file_picker: ^8.0.6
+  url_launcher: ^6.3.0
+  http: ^0.13.6
+  path_provider: ^2.1.3
+  docx_to_text: ^1.0.1
+  google_ml_kit: ^0.18.0
+  syncfusion_flutter_pdf: ^25.2.7
+  html: ^0.15.4
+  xml: ^6.5.0
+  archive: ^3.6.1
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +56,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  very_good_analysis: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
