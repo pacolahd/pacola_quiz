@@ -27,6 +27,9 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     this.scoreText,
     this.timerText,
     this.buttonText,
+    this.statisticsValue,
+    this.statisticsLabel,
+    this.chartLabel,
   });
 
   final TextStyle? displayLarge;
@@ -51,6 +54,9 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
   final TextStyle? scoreText;
   final TextStyle? timerText;
   final TextStyle? buttonText;
+  final TextStyle? statisticsValue;
+  final TextStyle? statisticsLabel;
+  final TextStyle? chartLabel;
 
   @override
   ThemeExtension<AppTextTheme> copyWith({
@@ -76,6 +82,9 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     TextStyle? scoreText,
     TextStyle? timerText,
     TextStyle? buttonText,
+    TextStyle? statisticsValue,
+    TextStyle? statisticsLabel,
+    TextStyle? chartLabel,
   }) {
     return AppTextTheme(
       displayLarge: displayLarge ?? this.displayLarge,
@@ -100,6 +109,9 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       scoreText: scoreText ?? this.scoreText,
       timerText: timerText ?? this.timerText,
       buttonText: buttonText ?? this.buttonText,
+      statisticsValue: statisticsValue ?? this.statisticsValue,
+      statisticsLabel: statisticsLabel ?? this.statisticsLabel,
+      chartLabel: chartLabel ?? this.chartLabel,
     );
   }
 
@@ -135,6 +147,11 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       scoreText: TextStyle.lerp(scoreText, other.scoreText, t),
       timerText: TextStyle.lerp(timerText, other.timerText, t),
       buttonText: TextStyle.lerp(buttonText, other.buttonText, t),
+      statisticsValue:
+          TextStyle.lerp(statisticsValue, other.statisticsValue, t),
+      statisticsLabel:
+          TextStyle.lerp(statisticsLabel, other.statisticsLabel, t),
+      chartLabel: TextStyle.lerp(chartLabel, other.chartLabel, t),
     );
   }
 }
@@ -145,136 +162,136 @@ final appTextTheme = AppTextTheme(
     fontWeight: FontWeight.w400,
     letterSpacing: -0.25,
     height: 1.12,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   displayMedium: GoogleFonts.roboto(
     fontSize: 45,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.16,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   displaySmall: GoogleFonts.roboto(
     fontSize: 36,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.22,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   headlineLarge: GoogleFonts.roboto(
     fontSize: 32,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.25,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   headlineMedium: GoogleFonts.roboto(
     fontSize: 28,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.29,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   headlineSmall: GoogleFonts.roboto(
     fontSize: 24,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.33,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   titleLarge: GoogleFonts.roboto(
     fontSize: 22,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     letterSpacing: 0,
     height: 1.27,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   titleMedium: GoogleFonts.roboto(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
     height: 1.5,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   titleSmall: GoogleFonts.roboto(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.1,
     height: 1.43,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   bodyLarge: GoogleFonts.roboto(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.5,
     height: 1.5,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   bodyMedium: GoogleFonts.roboto(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.25,
     height: 1.43,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   bodySmall: GoogleFonts.roboto(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.4,
     height: 1.33,
-    color: AppColors.textColor.secondary,
+    color: AppColors.textColor.lightSecondary,
   ),
   labelLarge: GoogleFonts.roboto(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.1,
     height: 1.43,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   labelMedium: GoogleFonts.roboto(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.5,
     height: 1.33,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   labelSmall: GoogleFonts.roboto(
     fontSize: 11,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.5,
     height: 1.45,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
 );
 
-final quizTextTheme = AppTextTheme(
+final extendedTextTheme = AppTextTheme(
   quizTitle: GoogleFonts.roboto(
     fontSize: 24,
     fontWeight: FontWeight.w700,
     letterSpacing: 0,
     height: 1.33,
-    color: AppColors.brand.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   quizQuestion: GoogleFonts.roboto(
     fontSize: 18,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
     height: 1.5,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   quizAnswer: GoogleFonts.roboto(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.5,
     height: 1.5,
-    color: AppColors.textColor.primary,
+    color: AppColors.textColor.lightPrimary,
   ),
   quizExplanation: GoogleFonts.roboto(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.25,
     height: 1.43,
-    color: AppColors.textColor.secondary,
+    color: AppColors.textColor.lightSecondary,
     fontStyle: FontStyle.italic,
   ),
   scoreText: GoogleFonts.roboto(
@@ -298,4 +315,25 @@ final quizTextTheme = AppTextTheme(
     height: 1.43,
     color: Colors.white,
   ),
+  // statisticsValue: GoogleFonts.roboto(
+  //   fontSize: 24,
+  //   fontWeight: FontWeight.w700,
+  //   letterSpacing: 0,
+  //   height: 1.33,
+  //   color: AppColors.textColor.lightPrimary,
+  // ),
+  // statisticsLabel: GoogleFonts.roboto(
+  //   fontSize: 14,
+  //   fontWeight: FontWeight.w400,
+  //   letterSpacing: 0.25,
+  //   height: 1.43,
+  //   color: AppColors.textColor.lightSecondary,
+  // ),
+  // chartLabel: GoogleFonts.roboto(
+  //   fontSize: 12,
+  //   fontWeight: FontWeight.w400,
+  //   letterSpacing: 0.4,
+  //   height: 1.33,
+  //   color: AppColors.textColor.lightSecondary,
+  // ),
 );

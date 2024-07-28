@@ -16,61 +16,50 @@ class AppTheme {
       onSecondary: Colors.white,
       error: AppColors.feedback.error,
       onError: Colors.white,
-      surface: AppColors.background.surface,
-      onSurface: AppColors.textColor.primary,
+      background: AppColors.background.lightMain,
+      onBackground: AppColors.textColor.lightPrimary,
+      surface: AppColors.background.cardLight,
+      onSurface: AppColors.textColor.lightPrimary,
       surfaceTint: AppColors.brand.primary,
-      surfaceContainerHighest: AppColors.background.main,
-      onSurfaceVariant: AppColors.textColor.secondary,
     ),
-    scaffoldBackgroundColor: AppColors.background.main,
+    scaffoldBackgroundColor: AppColors.background.lightMain,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.brand.primary,
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.background.lightMain,
+      foregroundColor: AppColors.textColor.lightPrimary,
       elevation: 0,
-      titleTextStyle: appTextTheme.titleLarge?.copyWith(color: Colors.white),
+      titleTextStyle: appTextTheme.titleLarge,
+      iconTheme: IconThemeData(color: AppColors.textColor.lightPrimary),
+    ),
+    cardTheme: CardTheme(
+      color: AppColors.background.cardLight,
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.brand.primary,
         foregroundColor: Colors.white,
-        textStyle: quizTextTheme.buttonText,
+        textStyle: appTextTheme.buttonText,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.brand.primary,
         side: BorderSide(color: AppColors.brand.primary),
-        textStyle: quizTextTheme.buttonText,
+        textStyle:
+            appTextTheme.buttonText?.copyWith(color: AppColors.brand.primary),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: AppColors.brand.primary,
-        textStyle: quizTextTheme.buttonText,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      ),
-    ),
-    cardTheme: CardTheme(
-      color: AppColors.background.card,
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      fillColor: AppColors.background.surface,
+      fillColor: AppColors.background.cardLight,
       filled: true,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(color: AppColors.ui.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -89,23 +78,29 @@ class AppTheme {
         borderSide: BorderSide(color: AppColors.feedback.error, width: 2),
       ),
       labelStyle: appTextTheme.bodyMedium,
-      hintStyle: appTextTheme.bodyMedium?.copyWith(
-        color: AppColors.textColor.hint,
-      ),
+      hintStyle:
+          appTextTheme.bodyMedium?.copyWith(color: AppColors.textColor.hint),
     ),
-    dividerTheme: DividerThemeData(
-      color: AppColors.ui.divider,
-      thickness: 1,
-      space: 24,
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.brand.secondary;
+        }
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return AppColors.brand.secondary.withOpacity(0.5);
+        }
+        return null;
+      }),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background.cardLight,
       selectedItemColor: AppColors.brand.primary,
-      unselectedItemColor: AppColors.textColor.secondary,
+      unselectedItemColor: AppColors.textColor.lightSecondary,
       selectedLabelStyle: appTextTheme.labelSmall,
       unselectedLabelStyle: appTextTheme.labelSmall,
-      type: BottomNavigationBarType.fixed,
-      elevation: 8,
     ),
     textTheme: TextTheme(
       displayLarge: appTextTheme.displayLarge,
@@ -124,7 +119,7 @@ class AppTheme {
       labelMedium: appTextTheme.labelMedium,
       labelSmall: appTextTheme.labelSmall,
     ),
-    extensions: [quizTextTheme],
+    extensions: [extendedTextTheme],
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -137,65 +132,55 @@ class AppTheme {
       onSecondary: Colors.white,
       error: AppColors.feedback.error,
       onError: Colors.white,
-      surface: AppColors.shade.black54,
-      onSurface: Colors.white,
+      background: AppColors.background.darkMain,
+      onBackground: AppColors.textColor.darkPrimary,
+      surface: AppColors.background.cardDark,
+      onSurface: AppColors.textColor.darkPrimary,
       surfaceTint: AppColors.brand.primary,
-      surfaceContainerHighest: AppColors.shade.black87,
-      onSurfaceVariant: Colors.white70,
     ),
-    scaffoldBackgroundColor: AppColors.shade.black87,
+    scaffoldBackgroundColor: AppColors.background.darkMain,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.shade.black87,
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.background.darkMain,
+      foregroundColor: AppColors.textColor.darkPrimary,
       elevation: 0,
-      titleTextStyle: appTextTheme.titleLarge?.copyWith(color: Colors.white),
+      titleTextStyle: appTextTheme.titleLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      iconTheme: IconThemeData(color: AppColors.textColor.darkPrimary),
+    ),
+    cardTheme: CardTheme(
+      color: AppColors.background.cardDark,
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.brand.primary,
         foregroundColor: Colors.white,
-        textStyle: quizTextTheme.buttonText,
+        textStyle: appTextTheme.buttonText,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.brand.primary,
         side: BorderSide(color: AppColors.brand.primary),
-        textStyle: quizTextTheme.buttonText,
+        textStyle:
+            appTextTheme.buttonText?.copyWith(color: AppColors.brand.primary),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: AppColors.brand.primary,
-        textStyle: quizTextTheme.buttonText,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      ),
-    ),
-    cardTheme: CardTheme(
-      color: AppColors.shade.black54,
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      fillColor: AppColors.shade.black54,
+      fillColor: AppColors.background.cardDark,
       filled: true,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(color: AppColors.ui.border.withOpacity(0.5)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: AppColors.ui.border),
+        borderSide: BorderSide(color: AppColors.ui.border.withOpacity(0.5)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -209,56 +194,86 @@ class AppTheme {
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: AppColors.feedback.error, width: 2),
       ),
-      labelStyle: appTextTheme.bodyMedium?.copyWith(color: Colors.white),
-      hintStyle: appTextTheme.bodyMedium?.copyWith(
-        color: AppColors.textColor.hint,
-      ),
+      labelStyle: appTextTheme.bodyMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      hintStyle: appTextTheme.bodyMedium
+          ?.copyWith(color: AppColors.textColor.darkSecondary),
     ),
-    dividerTheme: DividerThemeData(
-      color: AppColors.ui.divider,
-      thickness: 1,
-      space: 24,
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return AppColors.brand.secondary;
+        }
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return AppColors.brand.secondary.withOpacity(0.5);
+        }
+        return null;
+      }),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: AppColors.shade.black87,
+      backgroundColor: AppColors.background.cardDark,
       selectedItemColor: AppColors.brand.primary,
-      unselectedItemColor: Colors.white70,
-      selectedLabelStyle:
-          appTextTheme.labelSmall?.copyWith(color: Colors.white),
-      unselectedLabelStyle:
-          appTextTheme.labelSmall?.copyWith(color: Colors.white70),
-      type: BottomNavigationBarType.fixed,
-      elevation: 8,
+      unselectedItemColor: AppColors.textColor.darkSecondary,
+      selectedLabelStyle: appTextTheme.labelSmall
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      unselectedLabelStyle: appTextTheme.labelSmall
+          ?.copyWith(color: AppColors.textColor.darkSecondary),
     ),
     textTheme: TextTheme(
-      displayLarge: appTextTheme.displayLarge?.copyWith(color: Colors.white),
-      displayMedium: appTextTheme.displayMedium?.copyWith(color: Colors.white),
-      displaySmall: appTextTheme.displaySmall?.copyWith(color: Colors.white),
-      headlineLarge: appTextTheme.headlineLarge?.copyWith(color: Colors.white),
-      headlineMedium:
-          appTextTheme.headlineMedium?.copyWith(color: Colors.white),
-      headlineSmall: appTextTheme.headlineSmall?.copyWith(color: Colors.white),
-      titleLarge: appTextTheme.titleLarge?.copyWith(color: Colors.white),
-      titleMedium: appTextTheme.titleMedium?.copyWith(color: Colors.white),
-      titleSmall: appTextTheme.titleSmall?.copyWith(color: Colors.white),
-      bodyLarge: appTextTheme.bodyLarge?.copyWith(color: Colors.white),
-      bodyMedium: appTextTheme.bodyMedium?.copyWith(color: Colors.white),
-      bodySmall: appTextTheme.bodySmall?.copyWith(color: Colors.white70),
-      labelLarge: appTextTheme.labelLarge?.copyWith(color: Colors.white),
-      labelMedium: appTextTheme.labelMedium?.copyWith(color: Colors.white),
-      labelSmall: appTextTheme.labelSmall?.copyWith(color: Colors.white),
+      displayLarge: appTextTheme.displayLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      displayMedium: appTextTheme.displayMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      displaySmall: appTextTheme.displaySmall
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      headlineLarge: appTextTheme.headlineLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      headlineMedium: appTextTheme.headlineMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      headlineSmall: appTextTheme.headlineSmall
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      titleLarge: appTextTheme.titleLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      titleMedium: appTextTheme.titleMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      titleSmall: appTextTheme.titleSmall
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      bodyLarge: appTextTheme.bodyLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      bodyMedium: appTextTheme.bodyMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      bodySmall: appTextTheme.bodySmall
+          ?.copyWith(color: AppColors.textColor.darkSecondary),
+      labelLarge: appTextTheme.labelLarge
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      labelMedium: appTextTheme.labelMedium
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
+      labelSmall: appTextTheme.labelSmall
+          ?.copyWith(color: AppColors.textColor.darkPrimary),
     ),
     extensions: [
-      quizTextTheme.copyWith(
-        quizTitle: quizTextTheme.quizTitle?.copyWith(color: Colors.white),
-        quizQuestion: quizTextTheme.quizQuestion?.copyWith(color: Colors.white),
-        quizAnswer: quizTextTheme.quizAnswer?.copyWith(color: Colors.white),
-        quizExplanation:
-            quizTextTheme.quizExplanation?.copyWith(color: Colors.white70),
+      extendedTextTheme.copyWith(
+        quizTitle: appTextTheme.quizTitle
+            ?.copyWith(color: AppColors.textColor.darkPrimary),
+        quizQuestion: appTextTheme.quizQuestion
+            ?.copyWith(color: AppColors.textColor.darkPrimary),
+        quizAnswer: appTextTheme.quizAnswer
+            ?.copyWith(color: AppColors.textColor.darkPrimary),
+        quizExplanation: appTextTheme.quizExplanation
+            ?.copyWith(color: AppColors.textColor.darkSecondary),
         scoreText:
-            quizTextTheme.scoreText?.copyWith(color: AppColors.brand.primary),
+            appTextTheme.scoreText?.copyWith(color: AppColors.brand.primary),
         timerText:
-            quizTextTheme.timerText?.copyWith(color: AppColors.accent.orange),
+            appTextTheme.timerText?.copyWith(color: AppColors.accent.orange),
+        // statisticsValue: appTextTheme.statisticsValue
+        //     ?.copyWith(color: AppColors.textColor.darkPrimary),
+        // statisticsLabel: appTextTheme.statisticsLabel
+        //     ?.copyWith(color: AppColors.textColor.darkSecondary),
+        // chartLabel: appTextTheme.chartLabel
+        //     ?.copyWith(color: AppColors.textColor.darkSecondary),
       ),
     ],
   );

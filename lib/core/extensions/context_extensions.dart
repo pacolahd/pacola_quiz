@@ -18,13 +18,17 @@ extension ContextExtension on BuildContext {
 
 extension CustomThemeData on ThemeData {
   AppTextTheme get textStyles {
-    return extension<AppTextTheme>() ?? const AppTextTheme();
+    return extension<AppTextTheme>() ?? AppTextTheme();
   }
 
-  AppColorsExtension get colors => AppColorsExtension();
+  AppColorsExtension get colors => AppColorsExtension(this);
 }
 
 class AppColorsExtension {
+  final ThemeData _theme;
+
+  AppColorsExtension(this._theme);
+
   Color get primary => AppColors.brand.primary;
   Color get primaryLight => AppColors.brand.primaryLight;
   Color get primaryDark => AppColors.brand.primaryDark;
@@ -36,17 +40,25 @@ class AppColorsExtension {
   Color get accentPurple => AppColors.accent.purple;
   Color get accentRed => AppColors.accent.red;
 
-  Color get backgroundMain => AppColors.background.main;
-  Color get backgroundSurface => AppColors.background.surface;
-  Color get backgroundCard => AppColors.background.card;
+  Color get backgroundMain => _theme.brightness == Brightness.light
+      ? AppColors.background.lightMain
+      : AppColors.background.darkMain;
+  Color get backgroundSurface => _theme.brightness == Brightness.light
+      ? AppColors.background.cardLight
+      : AppColors.background.cardDark;
+  Color get backgroundCard => _theme.brightness == Brightness.light
+      ? AppColors.background.cardLight
+      : AppColors.background.cardDark;
 
-  Color get textPrimary => AppColors.textColor.primary;
-  Color get textSecondary => AppColors.textColor.secondary;
+  Color get textPrimary => _theme.brightness == Brightness.light
+      ? AppColors.textColor.lightPrimary
+      : AppColors.textColor.darkPrimary;
+  Color get textSecondary => _theme.brightness == Brightness.light
+      ? AppColors.textColor.lightSecondary
+      : AppColors.textColor.darkSecondary;
   Color get textHint => AppColors.textColor.hint;
   Color get textDisabled => AppColors.textColor.disabled;
   Color get textLink => AppColors.textColor.link;
-  Color get textInversePrimary => AppColors.textColor.inversePrimary;
-  Color get textInverseSecondary => AppColors.textColor.inverseSecondary;
 
   Color get feedbackSuccess => AppColors.feedback.success;
   Color get feedbackError => AppColors.feedback.error;
@@ -58,6 +70,7 @@ class AppColorsExtension {
   Color get uiIconPrimary => AppColors.ui.iconPrimary;
   Color get uiIconSecondary => AppColors.ui.iconSecondary;
   Color get uiDisabled => AppColors.ui.disabled;
+  Color get uiProgressBar => AppColors.ui.progressBar;
 
   Color get overlayLight => AppColors.overlay.light;
   Color get overlayDark => AppColors.overlay.dark;

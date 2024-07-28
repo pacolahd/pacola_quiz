@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pacola_quiz/core/common/widgets/theme_toggle_dropdown.dart';
 
 import 'input_processor.dart';
 
@@ -132,7 +133,7 @@ class _QuizGenerationScreenState extends State<QuizGenerationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Generate Quiz oh'),
+        title: const Text('Generate Quiz'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -140,6 +141,7 @@ class _QuizGenerationScreenState extends State<QuizGenerationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              ThemeToggle(),
               const Text(
                 'Add your study materials:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

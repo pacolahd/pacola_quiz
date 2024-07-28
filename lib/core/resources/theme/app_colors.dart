@@ -66,59 +66,65 @@ class AppColors {
 class _Brand {
   const _Brand();
 
-  Color get primary => const Color(0xFF3498DB);
-  Color get primaryLight => const Color(0xFF5DADE2);
-  Color get primaryDark => const Color(0xFF2980B9);
-  Color get secondary => const Color(0xFF2ECC71);
-  Color get secondaryLight => const Color(0xFF58D68D);
-  Color get secondaryDark => const Color(0xFF27AE60);
+  Color get primary =>
+      const Color(0xFF2196F3); // Blue color for active elements
+  Color get primaryLight => const Color(0xFF64B5F6);
+  Color get primaryDark => const Color(0xFF1976D2);
+  Color get secondary => const Color(0xFF4CAF50); // Green color for toggles
+  Color get secondaryLight => const Color(0xFF81C784);
+  Color get secondaryDark => const Color(0xFF388E3C);
 }
 
 class _Accent {
   const _Accent();
 
-  Color get orange => const Color(0xFFF39C12);
-  Color get purple => const Color(0xFF9B59B6);
-  Color get red => const Color(0xFFE74C3C);
+  Color get orange => const Color(0xFFFFA726);
+  Color get purple => const Color(0xFF7E57C2);
+  Color get red => const Color(0xFFEF5350);
 }
 
 class _Background {
   const _Background();
 
-  Color get main => const Color(0xFFF5F5F5);
-  Color get surface => Colors.white;
-  Color get card => Colors.white;
+  Color get lightMain =>
+      const Color(0xFFF0F4F8); // Light grayish-blue for light mode
+  Color get darkMain => const Color(0xFF0A1929); // Dark blue for dark mode
+  Color get cardLight => Colors.white;
+  Color get cardDark =>
+      const Color(0xFF132F4C); // Slightly lighter than the dark background
 }
 
 class _TextColor {
   const _TextColor();
 
-  Color get primary => const Color(0xFF333333);
-  Color get secondary => const Color(0xFF757575);
+  Color get lightPrimary => const Color(0xFF000000);
+  Color get darkPrimary => Colors.white;
+  Color get lightSecondary => const Color(0xFF666666);
+  Color get darkSecondary => const Color(0xB3FFFFFF); // 70% white
   Color get hint => const Color(0xFF9E9E9E);
   Color get disabled => const Color(0xFFBDBDBD);
   Color get link => const Color(0xFF2196F3);
-  Color get inversePrimary => Colors.white;
-  Color get inverseSecondary => const Color(0xB3FFFFFF);
 }
 
 class _Feedback {
   const _Feedback();
 
-  Color get success => const Color(0xFF2ECC71);
-  Color get error => const Color(0xFFE74C3C);
-  Color get warning => const Color(0xFFF1C40F);
-  Color get info => const Color(0xFF3498DB);
+  Color get success => const Color(0xFF4CAF50);
+  Color get error => const Color(0xFFE57373);
+  Color get warning => const Color(0xFFFFB74D);
+  Color get info => const Color(0xFF64B5F6);
 }
 
 class _UI {
   const _UI();
 
-  Color get divider => const Color(0xFFBDBDBD);
+  Color get divider => const Color(0xFFE0E0E0);
   Color get border => const Color(0xFFE0E0E0);
   Color get iconPrimary => const Color(0xFF757575);
   Color get iconSecondary => const Color(0xFF9E9E9E);
   Color get disabled => const Color(0xFFBDBDBD);
+  Color get progressBar =>
+      const Color(0xFF4CAF50); // Green color for progress bar
 }
 
 class _Overlay {
