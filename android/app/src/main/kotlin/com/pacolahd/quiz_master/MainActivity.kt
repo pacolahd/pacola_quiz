@@ -1,4 +1,4 @@
-package com.pacolahd.quiz_master
+package com.pacolahd.pacola_quiz
 
 import io.flutter.embedding.android.FlutterActivity
 

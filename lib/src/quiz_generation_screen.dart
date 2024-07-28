@@ -132,7 +132,7 @@ class _QuizGenerationScreenState extends State<QuizGenerationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Generate Quiz'),
+        title: const Text('Generate Quiz oh'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

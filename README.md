@@ -1,4 +1,4 @@
-# quiz_master
+# pacola_quiz
 
 AI-Powered Personalized Quiz Generator for Students. The app leverages AI to analyze uploaded lesson slides, notes, or documents and generates tailored quizzes.
  
