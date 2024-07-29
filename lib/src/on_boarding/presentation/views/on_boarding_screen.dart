@@ -68,7 +68,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         dotWidth: 10,
                         spacing: 20,
                         activeDotColor: context.theme.colorScheme.primary,
-                        dotColor: Colors.grey.shade300,
+                        dotColor: Colors.grey.shade400,
                       ),
                     ),
                   ),
@@ -79,39 +79,42 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               padding: EdgeInsets.all(context.width * 0.05),
               child: Column(
                 children: [
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: context.theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: context.theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
+                        children: [
+                          const TextSpan(
+                              text: "By signing up, I accept Pacola Quiz's "),
+                          TextSpan(
+                            text: 'Terms of Service',
+                            style: TextStyle(
+                              color: context.theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigate to Terms of Service
+                              },
+                          ),
+                          const TextSpan(text: ' and '),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(
+                              color: context.theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigate to Privacy Policy
+                              },
+                          ),
+                        ],
                       ),
-                      children: [
-                        const TextSpan(
-                            text: "By signing up, I accept Pacola Quiz's "),
-                        TextSpan(
-                          text: 'Terms of Service',
-                          style: TextStyle(
-                            color: context.theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Navigate to Terms of Service
-                            },
-                        ),
-                        const TextSpan(text: ' and '),
-                        TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(
-                            color: context.theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Navigate to Privacy Policy
-                            },
-                        ),
-                      ],
                     ),
                   ),
                   SizedBox(height: context.height * 0.02),
@@ -119,7 +122,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.theme.colorScheme.primary,
                       foregroundColor: Colors.white,
-                      minimumSize: Size(double.infinity, context.height * 0.06),
+                      minimumSize: Size(double.infinity, context.height * 0.07),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
@@ -137,7 +140,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: context.theme.colorScheme.primary,
-                      minimumSize: Size(double.infinity, context.height * 0.06),
+                      minimumSize: Size(double.infinity, context.height * 0.07),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
@@ -148,9 +151,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     onPressed: () {
                       // Navigate to login page
                     },
-                    child: const Text('Log in'),
+                    child: const Text('or Log in'),
                   ),
-                  SizedBox(height: context.height * 0.03),
+                  SizedBox(height: context.height * 0.06),
                 ],
               ),
             ),
