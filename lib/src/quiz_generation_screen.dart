@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:pacola_quiz/core/common/widgets/theme_toggle_dropdown.dart';
 
 import 'input_processor.dart';
@@ -227,7 +228,7 @@ class _QuizGenerationScreenState extends State<QuizGenerationScreen> {
                               : item['name'] as String),
                       subtitle: Text(item['type'] as String),
                       trailing: IconButton(
-                        icon: const Icon(Icons.delete),
+                        icon: const Icon(HugeIcons.strokeRoundedDelete02),
                         onPressed: () => _removeInput(index),
                       ),
                     );
