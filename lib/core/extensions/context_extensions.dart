@@ -18,7 +18,7 @@ extension ContextExtension on BuildContext {
 
 extension CustomThemeData on ThemeData {
   AppTextTheme get textStyles {
-    return extension<AppTextTheme>() ?? AppTextTheme();
+    return extension<AppTextTheme>()!;
   }
 
   AppColorsExtension get colors => AppColorsExtension(this);

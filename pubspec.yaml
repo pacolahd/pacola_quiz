@@ -59,6 +59,10 @@ dependencies:
   get_it: ^7.7.0
   flutter_bloc: ^8.1.6
   supabase_flutter: ^2.5.11
+  google_sign_in: ^6.2.1
+  flutter_form_builder: ^9.3.0
+  form_builder_validators: ^11.0.0
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
@@ -84,8 +88,13 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/vectors/
+    - assets/images/
+    - assets/lottie/
+    - assets/icons/
+    - assets/sounds/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

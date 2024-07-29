@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
-import 'app_text_theme.dart';
+import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
+import 'package:pacola_quiz/core/resources/theme/app_text_theme.dart';
 
 class AppTheme {
   AppTheme._();
@@ -51,7 +50,9 @@ class AppTheme {
         textStyle:
             appTextTheme.buttonText?.copyWith(color: AppColors.brand.primary),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -88,8 +89,8 @@ class AppTheme {
         }
         return null;
       }),
-      trackColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return AppColors.brand.secondary.withOpacity(0.5);
         }
         return null;
@@ -200,13 +201,13 @@ class AppTheme {
           ?.copyWith(color: AppColors.textColor.darkSecondary),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      thumbColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return AppColors.brand.secondary;
         }
         return null;
       }),
-      trackColor: MaterialStateProperty.resolveWith((states) {
+      trackColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) {
           return AppColors.brand.secondary.withOpacity(0.5);
         }
@@ -268,12 +269,12 @@ class AppTheme {
             appTextTheme.scoreText?.copyWith(color: AppColors.brand.primary),
         timerText:
             appTextTheme.timerText?.copyWith(color: AppColors.accent.orange),
-        // statisticsValue: appTextTheme.statisticsValue
-        //     ?.copyWith(color: AppColors.textColor.darkPrimary),
-        // statisticsLabel: appTextTheme.statisticsLabel
-        //     ?.copyWith(color: AppColors.textColor.darkSecondary),
-        // chartLabel: appTextTheme.chartLabel
-        //     ?.copyWith(color: AppColors.textColor.darkSecondary),
+        statisticsValue: appTextTheme.statisticsValue
+            ?.copyWith(color: AppColors.textColor.darkPrimary),
+        statisticsLabel: appTextTheme.statisticsLabel
+            ?.copyWith(color: AppColors.textColor.darkSecondary),
+        chartLabel: appTextTheme.chartLabel
+            ?.copyWith(color: AppColors.textColor.darkSecondary),
       ),
     ],
   );
