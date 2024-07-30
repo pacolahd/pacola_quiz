@@ -23,6 +23,8 @@ class CustomFormBuilderTextField extends StatelessWidget {
     this.enabled,
     this.maxLines = 1,
     this.contentPadding,
+    this.onChanged,
+    this.additionalTapOutside,
   });
 
   final String name;
@@ -43,10 +45,13 @@ class CustomFormBuilderTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final int? maxLines;
   final EdgeInsetsGeometry? contentPadding;
+  final void Function(String?)? onChanged;
+  final void Function()? additionalTapOutside;
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      onChanged: onChanged ?? (_) {},
       enabled: enabled ?? true,
       name: name,
       style: context.theme.textTheme.bodyMedium,
@@ -63,6 +68,7 @@ class CustomFormBuilderTextField extends StatelessWidget {
             },
       onTapOutside: (_) {
         FocusScope.of(context).unfocus();
+        additionalTapOutside!();
       },
       maxLines: maxLines,
       keyboardType: keyboardType,

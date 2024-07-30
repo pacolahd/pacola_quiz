@@ -7,6 +7,8 @@ import 'package:pacola_quiz/core/utils/constants.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
 import 'package:pacola_quiz/src/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pacola_quiz/src/auth/presentation/views/email_login_screen.dart';
+import 'package:pacola_quiz/src/auth/presentation/views/email_sign_up.dart';
+import 'package:pacola_quiz/src/auth/presentation/views/forgot_password_screen.dart';
 import 'package:pacola_quiz/src/auth/presentation/views/sign_in_screen.dart';
 import 'package:pacola_quiz/src/auth/presentation/views/sign_up_screen.dart';
 import 'package:pacola_quiz/src/dashboard/presentation/views/dashboard.dart';
@@ -73,29 +75,37 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         settings: settings,
       );
 
-    case EmailLoginScreen.routeName:
+    case EmailLogInScreen.routeName:
       return _pageBuilder(
         (_) => BlocProvider(
           create: (_) => sl<AuthBloc>(),
-          child: const EmailLoginScreen(),
+          child: const EmailLogInScreen(),
         ),
         settings: settings,
       );
 
-    // case EmailSigninScreen.routeName:
-    // return _pageBuilder(
-    //   (_) => BlocProvider(
-    //     create: (_) => sl<AuthBloc>(),
-    //     child: const EmailSigninScreen(),
-    //   ),
-    //   settings: settings,
-    // );
+    case EmailSignUpScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<AuthBloc>(),
+          child: const EmailSignUpScreen(),
+        ),
+        settings: settings,
+      );
 
     case SignUpScreen.routeName:
       return _pageBuilder(
         (_) => BlocProvider(
           create: (_) => sl<AuthBloc>(),
           child: const SignUpScreen(),
+        ),
+        settings: settings,
+      );
+    case ForgotPasswordScreen.routeName:
+      return _pageBuilder(
+        (_) => BlocProvider(
+          create: (_) => sl<AuthBloc>(),
+          child: const ForgotPasswordScreen(),
         ),
         settings: settings,
       );

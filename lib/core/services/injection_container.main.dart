@@ -14,7 +14,9 @@ Future<void> init() async {
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
-  sl.registerLazySingleton(() => supabase.client);
+  sl
+    ..registerLazySingleton(() => Connectivity())
+    ..registerLazySingleton(() => supabase.client);
 
   await _initOnBoarding();
   await _initAuth();
@@ -47,7 +49,10 @@ Future<void> _initAuth() async {
     ..registerLazySingleton(() => UpdateUser(sl()))
     ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()))
     ..registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(supabaseClient: sl()),
+      () => AuthRemoteDataSourceImpl(
+        supabaseClient: sl(),
+        connectivity: sl(),
+      ),
     );
 }
 

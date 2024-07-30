@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacola_quiz/src/auth/data/datasources/auth_remote_data_src.dart';
 import 'package:pacola_quiz/src/auth/data/repositories/auth_repo_impl.dart';

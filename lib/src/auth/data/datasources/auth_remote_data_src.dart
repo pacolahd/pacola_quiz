@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pacola_quiz/core/enums/update_user.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
 import 'package:pacola_quiz/core/utils/constants.dart';
+import 'package:pacola_quiz/core/utils/datasource_utils.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,10 +27,14 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  const AuthRemoteDataSourceImpl({required SupabaseClient supabaseClient})
-      : _supabaseClient = supabaseClient;
+  const AuthRemoteDataSourceImpl({
+    required SupabaseClient supabaseClient,
+    required Connectivity connectivity,
+  })  : _supabaseClient = supabaseClient,
+        _connectivity = connectivity;
 
   final SupabaseClient _supabaseClient;
+  final Connectivity _connectivity;
 
   @override
   Session? get currentSession => _supabaseClient.auth.currentSession;
@@ -35,6 +42,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> forgotPassword(String email) async {
     try {
+      await DataSourceUtils.checkInternetConnection(_connectivity);
+
       await _supabaseClient.auth.resetPasswordForEmail(email);
     } on AuthException catch (e) {
       throw ServerException(
@@ -55,6 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
+      await DataSourceUtils.checkInternetConnection(_connectivity);
       final result = await _supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
@@ -103,6 +113,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
+      await DataSourceUtils.checkInternetConnection(_connectivity);
+
       final response = await _supabaseClient.auth.signUp(
         email: email,
         password: password,
@@ -122,11 +134,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       await _setUserData(response.user!);
     } on AuthException catch (e) {
+      debugPrint(e.message);
       throw ServerException(
         message: e.message,
         statusCode: 'auth/error',
       );
     } catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.toString(),
         statusCode: '505',
@@ -140,6 +154,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     dynamic userData,
   }) async {
     try {
+      // Check for internet connection
+      await DataSourceUtils.checkInternetConnection(_connectivity);
+
+      // Authorize user
+      await DataSourceUtils.authorizeUser(_supabaseClient);
+
       final userId = _supabaseClient.auth.currentUser!.id;
       switch (action) {
         case UpdateUserAction.email:
@@ -213,6 +233,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> signInWithGoogle() async {
     try {
+      await DataSourceUtils.checkInternetConnection(_connectivity);
+
       final googleSignIn = GoogleSignIn();
       final googleUser = await googleSignIn.signIn();
 

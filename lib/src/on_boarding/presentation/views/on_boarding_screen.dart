@@ -158,7 +158,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             SignUpScreen.routeName,
                           );
                         },
-                        child: const Text('Sign up for free'),
+                        child: const Text('Get started for free'),
                       ),
                     ),
                     SizedBox(height: context.height * 0.02),
@@ -182,7 +182,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             SignInScreen.routeName,
                           );
                         },
-                        child: const Text('or Log in'),
+                        child: const Text('Already have an account'),
                       ),
                     ),
                     SizedBox(height: context.height * 0.09),

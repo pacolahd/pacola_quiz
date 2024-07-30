@@ -36,6 +36,7 @@ class MediaRes {
   static const thumbnailPlaceholder = '$_baseImage/video_placeholder.png';
 
   static const user = '$_baseIcon/user.png';
+  static const googleIcon = '$_baseIcon/google_icon.png';
   static const course = '$_baseIcon/course.png';
   static const subscriptionMonthly = '$_baseIcon/subscription_month.png';
   static const subscriptionYearly = '$_baseIcon/subscription_year.png';

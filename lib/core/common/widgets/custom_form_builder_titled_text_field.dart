@@ -25,6 +25,9 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
     this.enabled,
     this.maxLines = 1,
     this.contentPadding,
+    this.onChanged,
+    this.additionalTapOutside,
+    this.isRepeatPassword,
   });
 
   final bool required;
@@ -46,6 +49,9 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final int? maxLines;
   final EdgeInsetsGeometry? contentPadding;
+  final void Function(String?)? onChanged;
+  final void Function()? additionalTapOutside;
+  final bool? isRepeatPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
               text: TextSpan(
                 text: title,
                 style: context.theme.textTheme.titleSmall,
-                children: required
+                children: required || isRepeatPassword == true
                     ? [
                         TextSpan(
                           text: ' *',
@@ -75,6 +81,8 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         CustomFormBuilderTextField(
+          additionalTapOutside: additionalTapOutside,
+          onChanged: onChanged ?? (_) {},
           suffixIcon: suffixIcon,
           maxLines: maxLines,
           name: name,
@@ -90,6 +98,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
               },
             if (validators != null) ...validators!,
           ]),
+          overrideValidator: true,
           filled: filled,
           fillColour: fillColour,
           border: border,
