@@ -24,6 +24,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
     this.focusNode,
     this.enabled,
     this.maxLines = 1,
+    this.contentPadding,
   });
 
   final bool required;
@@ -44,6 +45,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final int? maxLines;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
             RichText(
               text: TextSpan(
                 text: title,
-                style: context.theme.textTheme.titleMedium,
+                style: context.theme.textTheme.titleSmall,
                 children: required
                     ? [
                         TextSpan(
@@ -68,11 +70,12 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
                     : null,
               ),
             ),
-            if (suffixIcon != null) suffixIcon!,
+            // if (suffixIcon != null) suffixIcon!,
           ],
         ),
         const SizedBox(height: 8),
         CustomFormBuilderTextField(
+          suffixIcon: suffixIcon,
           maxLines: maxLines,
           name: name,
           hintText: hintText ?? 'Enter $title',
@@ -97,6 +100,7 @@ class CustomFormBuilderTitledTextField extends StatelessWidget {
           onTap: onTap,
           focusNode: focusNode,
           enabled: enabled,
+          contentPadding: contentPadding,
         ),
       ],
     );

@@ -143,8 +143,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final userId = _supabaseClient.auth.currentUser!.id;
       switch (action) {
         case UpdateUserAction.email:
-          await _supabaseClient.auth
-              .updateUser(UserAttributes(email: userData as String));
+          await _supabaseClient.auth.updateUser(UserAttributes(
+            email: userData as String,
+          ));
           await _updateUserData({'email': userData});
         case UpdateUserAction.firstName:
           await _updateUserData({'first_name': userData as String});
@@ -152,7 +153,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           await _updateUserData({'last_name': userData as String});
         case UpdateUserAction.profilePic:
           final filePath = '$userId/profile_pic/profile_image';
-          await _supabaseClient.storage.from('users').upload(
+          await _supabaseClient.storage.from('user_data').upload(
               filePath, userData as File,
               fileOptions: const FileOptions(upsert: true));
           final url =

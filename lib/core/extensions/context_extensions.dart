@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
 import 'package:pacola_quiz/core/resources/theme/app_text_theme.dart';
+import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
+import 'package:provider/provider.dart';
 
 extension ContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -11,9 +14,9 @@ extension ContextExtension on BuildContext {
   double get width => size.width;
   double get height => size.height;
 
-// Uncomment and adjust these lines when you have implemented user authentication
-// UserProvider get userProvider => read<UserProvider>();
-// User? get currentUser => userProvider.user;
+//Uncomment and adjust these lines when you have implemented user authentication
+  UserProvider get userProvider => read<UserProvider>();
+  UserEntity? get currentUser => userProvider.user;
 }
 
 extension CustomThemeData on ThemeData {
@@ -71,6 +74,7 @@ class AppColorsExtension {
   Color get uiIconSecondary => AppColors.ui.iconSecondary;
   Color get uiDisabled => AppColors.ui.disabled;
   Color get uiProgressBar => AppColors.ui.progressBar;
+  // Color get ui => AppColors.ui.darkBlue,
 
   Color get overlayLight => AppColors.overlay.light;
   Color get overlayDark => AppColors.overlay.dark;

@@ -21,8 +21,9 @@ Future<void> init() async {
 }
 
 class AppSecrets {
-  static const supabaseUrl = 'https://<supabase-url>.supabase.co';
-  static const supabaseAnonKey = '<sup';
+  static const supabaseUrl = 'https://zkpswwlyoimhvyczwbmk.supabase.co';
+  static const supabaseAnonKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcHN3d2x5b2ltaHZ5Y3p3Ym1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgyNzU1ODYsImV4cCI6MjAzMzg1MTU4Nn0.PJcr6W84WPg28c82yvlXz0rC0Zcjt2WgTE5VvgPknsA';
 }
 
 Future<void> _initAuth() async {

@@ -22,6 +22,7 @@ class CustomFormBuilderTextField extends StatelessWidget {
     this.focusNode,
     this.enabled,
     this.maxLines = 1,
+    this.contentPadding,
   });
 
   final String name;
@@ -41,6 +42,7 @@ class CustomFormBuilderTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final int? maxLines;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class CustomFormBuilderTextField extends StatelessWidget {
         errorBorder: border ?? context.theme.inputDecorationTheme.errorBorder,
         focusedErrorBorder:
             border ?? context.theme.inputDecorationTheme.focusedErrorBorder,
-        contentPadding:
+        contentPadding: contentPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         filled: filled,
         fillColor: fillColour ?? context.theme.inputDecorationTheme.fillColor,

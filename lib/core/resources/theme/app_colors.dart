@@ -86,6 +86,7 @@ class _Accent {
 class _Background {
   const _Background();
 
+  // better background light: 0xFFE6F0FF
   Color get lightMain =>
       const Color(0xFFF0F4F8); // Light grayish-blue for light mode
   Color get darkMain => const Color(0xFF0A1929); // Dark blue for dark mode
@@ -123,6 +124,7 @@ class _UI {
   Color get iconPrimary => const Color(0xFF757575);
   Color get iconSecondary => const Color(0xFF9E9E9E);
   Color get disabled => const Color(0xFFBDBDBD);
+  Color get darkBlue => const Color(0xFF132F4C);
   Color get progressBar =>
       const Color(0xFF4CAF50); // Green color for progress bar
 }

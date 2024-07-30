@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pacola_quiz/core/common/app/providers/theme_provider.dart';
 import 'package:pacola_quiz/core/resources/theme/app_theme.dart';
 import 'package:pacola_quiz/core/services/injection_container.dart';
-import 'package:pacola_quiz/src/on_boarding/presentation/views/on_boarding_screen.dart';
+import 'package:pacola_quiz/core/services/router.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: context.watch<ThemeProvider>().themeMode,
-      home: const OnBoardingScreen(),
-      // onGenerateRoute: generateRoute,
+      // home: const OnBoardingScreen(),
+      onGenerateRoute: generateRoute,
     );
   }
 }
