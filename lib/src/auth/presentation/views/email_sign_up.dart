@@ -33,10 +33,15 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   bool _passwordTouched = false;
   bool _reverseScrollDirection = false;
 
-  void dispose() {
-    super.dispose();
-    CoreUtils.unfocusAllFields(context);
-  }
+  // void dispose() {
+  //   super.dispose();
+  //   CoreUtils.unfocusAllFields(context);
+  //  }
+  //
+  // void initState() {
+  //   super.initState();
+  //   _signUpFormKey.currentState?.reset();
+  // }
 
   void _updatePasswordCriteria(String? value) {
     setState(() {
@@ -76,23 +81,10 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 type: MessageType.error,
               );
             } else if (state is SignedUp) {
-              debugPrint('SignedUp state received, showing dialog');
-              CoreUtils.showMessageDialog(
+              Navigator.pushReplacementNamed(
                 context,
-                title: 'Success',
-                message: 'Successfully Signed you up. Now you have to log in',
-                type: MessageType.success,
+                EmailLogInScreen.routeName,
               );
-
-              // Use Future.delayed to navigate after a short delay
-              Future.delayed(Duration(seconds: 2), () {
-                _signUpFormKey.currentState?.reset();
-                CoreUtils.unfocusAllFields(context);
-                Navigator.pushReplacementNamed(
-                  context,
-                  EmailLogInScreen.routeName,
-                );
-              });
             }
           }
         },

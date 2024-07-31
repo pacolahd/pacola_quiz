@@ -42,9 +42,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             final localUser = UserModel(
               id: user.id,
               email: user.email ?? '',
-              firstName: user.userMetadata?['first_name'] as String ?? '',
-              lastName: user.userMetadata?['last_name'] as String ?? '',
-              profilePic: user.userMetadata?['profile_pic'] as String ?? '',
+              firstName: user.userMetadata?['first_name'] as String,
+              lastName: user.userMetadata?['last_name'] as String,
+              profilePic: user.userMetadata?['profile_pic'] as String,
             );
             // Assuming you have a userProvider in your context
             context.userProvider.initUser(localUser);

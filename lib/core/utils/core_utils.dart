@@ -46,27 +46,29 @@ class CoreUtils {
           backgroundColor: Colors.white,
           elevation: 0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      child: CustomLoadingIndicator(),
-                    ),
-                    SizedBox(width: 16),
-                    Text(
-                      'Just a moment...',
-                      style: TextStyle(
-                        color: AppColors.textColor.lightPrimary,
-                        fontSize: 16,
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+            child: SizedBox(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        child: CustomLoadingIndicator(),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 16),
+                      Text(
+                        'Just a moment...',
+                        style: TextStyle(
+                          color: AppColors.textColor.lightPrimary,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

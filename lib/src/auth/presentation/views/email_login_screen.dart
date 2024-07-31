@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/common/widgets/custom_form_builder_titled_text_field.dart';
@@ -32,12 +33,24 @@ class _EmailLogInScreenState extends State<EmailLogInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (_, state) {
-          if (state is AuthError) {
-            CoreUtils.showSnackBar(context, state.message);
-          } else if (state is SignedIn) {
-            context.read<UserProvider>().initUser(state.user as UserModel);
-            Navigator.pushReplacementNamed(context, Dashboard.routeName);
+        listener: (context, state) {
+          if (state is AuthLoading) {
+            CoreUtils.showLoadingDialog(context);
+          } else {
+            // Dismiss the loading dialog if it's showing
+            Navigator.of(context).popUntil((route) => route is! DialogRoute);
+
+            if (state is AuthError) {
+              CoreUtils.showMessageDialog(
+                context,
+                title: 'Error',
+                message: state.message,
+                type: MessageType.error,
+              );
+            } else if (state is SignedIn) {
+              context.read<UserProvider>().initUser(state.user as UserModel);
+              Navigator.pushReplacementNamed(context, Dashboard.routeName);
+            }
           }
         },
         builder: (context, state) {
@@ -72,14 +85,17 @@ class _EmailLogInScreenState extends State<EmailLogInScreen> {
                           key: _loginFormKey,
                           child: Column(
                             children: [
-                              const CustomFormBuilderTitledTextField(
+                              CustomFormBuilderTitledTextField(
                                 title: 'Email',
                                 name: 'email',
+                                validators: [
+                                  FormBuilderValidators.email(),
+                                ],
                                 // contentPadding: EdgeInsets.symmetric(
                                 //   horizontal: 20,
                                 //   vertical: 20,
                                 // ),
-                                suffixIcon: Icon(
+                                suffixIcon: const Icon(
                                   HugeIcons.strokeRoundedMail01,
                                 ),
                               ),
