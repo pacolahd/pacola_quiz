@@ -36,6 +36,7 @@ class MediaRes {
   static const thumbnailPlaceholder = '$_baseImage/video_placeholder.png';
 
   static const user = '$_baseIcon/user.png';
+  static const json = '$_baseIcon/json.png';
   static const googleIcon = '$_baseIcon/google_icon.png';
   static const course = '$_baseIcon/course.png';
   static const subscriptionMonthly = '$_baseIcon/subscription_month.png';
@@ -43,10 +44,10 @@ class MediaRes {
   static const test = '$_baseIcon/test.png';
   static const video = '$_baseIcon/video.png';
   static const material = '$_baseIcon/document.png';
-  static const examTime = '$_baseIcon/exam_time.png';
-  static const examQuestions = '$_baseIcon/questions_document.png';
-  static const examTimeRed = '$_baseIcon/exam_time_red.png';
-  static const courseInfoExam = '$_baseIcon/course_info_exam.png';
+  static const quizTime = '$_baseIcon/quiz_time.png';
+  static const quizQuestions = '$_baseIcon/questions_document.png';
+  static const quizTimeRed = '$_baseIcon/quiz_time_red.png';
+  static const courseInfoExam = '$_baseIcon/course_info_quiz.png';
   static const courseInfoMaterial = '$_baseIcon/course_info_material.png';
 
   /// Subjects

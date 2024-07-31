@@ -8,6 +8,7 @@ class Course extends Equatable {
     required this.numberOfMaterials,
     required this.createdAt,
     required this.updatedAt,
+    required this.createdBy,
     this.description,
     this.image,
   });
@@ -21,6 +22,7 @@ class Course extends Equatable {
           numberOfMaterials: 0,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
+          createdBy: '_empty.userId',
         );
 
   final String id;
@@ -31,6 +33,7 @@ class Course extends Equatable {
   final String? image;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String createdBy;
 
   @override
   List<Object?> get props => [id];

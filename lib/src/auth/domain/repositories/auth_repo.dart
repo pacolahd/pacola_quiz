@@ -1,5 +1,5 @@
 // lib/features/auth/domain/repositories/auth_repository.dart
-import 'package:pacola_quiz/core/enums/update_user.dart';
+import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
 
@@ -15,8 +15,7 @@ abstract class AuthRepository {
 
   ResultFuture<void> signUp({
     required String email,
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String password,
   });
 

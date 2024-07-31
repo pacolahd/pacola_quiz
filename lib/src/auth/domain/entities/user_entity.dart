@@ -4,24 +4,21 @@ class UserEntity extends Equatable {
   const UserEntity({
     required this.id,
     required this.email,
-    required this.firstName,
-    required this.lastName,
+    required this.fullName,
     this.profilePic,
   });
 
   final String id;
   final String email;
-  final String firstName;
-  final String lastName;
+  final String fullName;
+
   final String? profilePic;
 
-  String get fullName => '$firstName $lastName';
-
   @override
-  List<Object?> get props => [id, email, firstName, lastName, profilePic];
+  List<Object?> get props => [id, email, fullName, profilePic];
 
   @override
   String toString() {
-    return 'User{id: $id, email: $email, firstName: $firstName, lastName: $lastName, profilePic: $profilePic}';
+    return 'User{id: $id, email: $email, fullName: $fullName , profilePic: $profilePic}';
   }
 }

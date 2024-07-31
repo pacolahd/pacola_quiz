@@ -9,51 +9,17 @@ part of 'injection_container.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  final supabase = await Supabase.initialize(
-    url: AppSecrets.supabaseUrl,
-    anonKey: AppSecrets.supabaseAnonKey,
-  );
-
   sl
     ..registerLazySingleton(() => Connectivity())
-    ..registerLazySingleton(() => supabase.client);
+    ..registerLazySingleton(() => FirebaseAuth.instance)
+    ..registerLazySingleton(() => FirebaseFirestore.instance)
+    ..registerLazySingleton(() => FirebaseStorage.instance);
 
   await _initOnBoarding();
   await _initAuth();
-}
-
-class AppSecrets {
-  static const supabaseUrl = 'https://zkpswwlyoimhvyczwbmk.supabase.co';
-  static const supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcHN3d2x5b2ltaHZ5Y3p3Ym1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgyNzU1ODYsImV4cCI6MjAzMzg1MTU4Nn0.PJcr6W84WPg28c82yvlXz0rC0Zcjt2WgTE5VvgPknsA';
-}
-
-Future<void> _initAuth() async {
-  // Feature --> Auth
-  // Business Logic
-
-  sl
-    ..registerFactory(
-      () => AuthBloc(
-        signIn: sl(),
-        signUp: sl(),
-        forgotPassword: sl(),
-        updateUser: sl(),
-        signInWithGoogle: sl(),
-      ),
-    )
-    ..registerLazySingleton(() => SignIn(sl()))
-    ..registerLazySingleton(() => SignInWithGoogle(sl()))
-    ..registerLazySingleton(() => SignUp(sl()))
-    ..registerLazySingleton(() => ForgotPassword(sl()))
-    ..registerLazySingleton(() => UpdateUser(sl()))
-    ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()))
-    ..registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(
-        supabaseClient: sl(),
-        connectivity: sl(),
-      ),
-    );
+  await _initCourse();
+  await _initMaterial();
+  await _initQuiz();
 }
 
 Future<void> _initOnBoarding() async {
@@ -76,4 +42,111 @@ Future<void> _initOnBoarding() async {
     ..registerLazySingleton<OnBoardingLocalDataSource>(
         () => OnBoardingLocalDataSrcImpl(sl()))
     ..registerLazySingleton(() => prefs);
+}
+
+Future<void> _initAuth() async {
+  sl
+    ..registerFactory(
+      () => AuthBloc(
+        signIn: sl(),
+        signUp: sl(),
+        forgotPassword: sl(),
+        updateUser: sl(),
+        signInWithGoogle: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => SignIn(sl()))
+    ..registerLazySingleton(() => SignInWithGoogle(sl()))
+    ..registerLazySingleton(() => SignUp(sl()))
+    ..registerLazySingleton(() => ForgotPassword(sl()))
+    ..registerLazySingleton(() => UpdateUser(sl()))
+    ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()))
+    ..registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        connectivity: sl(),
+        authClient: sl(),
+        firestoreClient: sl(),
+        storageClient: sl(),
+      ),
+    );
+}
+
+Future<void> _initCourse() async {
+  sl
+    ..registerFactory(
+      () => CourseCubit(
+        addCourse: sl(),
+        getCourses: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => AddCourse(sl()))
+    ..registerLazySingleton(() => GetCourses(sl()))
+    ..registerLazySingleton<CourseRepo>(() => CourseRepoImpl(sl()))
+    ..registerLazySingleton<CourseRemoteDataSrc>(
+      () => CourseRemoteDataSrcImpl(
+        auth: sl(),
+        firestore: sl(),
+        storage: sl(),
+        connectivity: sl(),
+      ),
+    );
+}
+
+Future<void> _initQuiz() async {
+  sl
+    ..registerFactory(
+      () => QuizCubit(
+        getQuizQuestions: sl(),
+        getQuizzes: sl(),
+        submitQuiz: sl(),
+        updateQuiz: sl(),
+        uploadQuiz: sl(),
+        getUserCourseQuizzes: sl(),
+        getUserQuizzes: sl(),
+        getQuizzesUsingMaterial: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => GetQuizQuestions(sl()))
+    ..registerLazySingleton(() => GetQuizzes(sl()))
+    ..registerLazySingleton(() => SubmitQuiz(sl()))
+    ..registerLazySingleton(() => UpdateQuiz(sl()))
+    ..registerLazySingleton(() => UploadQuiz(sl()))
+    ..registerLazySingleton(() => GetUserCourseQuizzes(sl()))
+    ..registerLazySingleton(() => GetUserQuizzes(sl()))
+    ..registerLazySingleton(() => GetQuizzesUsingMaterial(sl()))
+    ..registerLazySingleton<QuizRepo>(() => QuizRepoImpl(sl()))
+    ..registerLazySingleton<QuizRemoteDataSrc>(
+      () => QuizRemoteDataSrcImpl(
+        auth: sl(),
+        firestore: sl(),
+        connectivity: sl(),
+      ),
+    );
+}
+
+Future<void> _initMaterial() async {
+  sl
+    ..registerFactory(
+      () => MaterialCubit(
+        addMaterial: sl(),
+        getMaterials: sl(),
+        // updateMaterial: sl(),
+        // deleteMaterial: sl(),
+        getMaterialsForQuiz: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => AddMaterial(sl()))
+    ..registerLazySingleton(() => GetMaterials(sl()))
+    // ..registerLazySingleton(() => UpdateMaterial(sl()))
+    // ..registerLazySingleton(() => DeleteMaterial(sl()))
+    ..registerLazySingleton(() => GetMaterialsForQuiz(sl()))
+    ..registerLazySingleton<MaterialRepo>(() => MaterialRepoImpl(sl()))
+    ..registerLazySingleton<MaterialRemoteDataSrc>(
+      () => MaterialRemoteDataSrcImpl(
+        auth: sl(),
+        firestore: sl(),
+        storage: sl(),
+        connectivity: sl(),
+      ),
+    );
 }

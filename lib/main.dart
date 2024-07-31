@@ -1,15 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pacola_quiz/core/common/app/providers/theme_provider.dart';
 import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/resources/theme/app_theme.dart';
 import 'package:pacola_quiz/core/services/injection_container.dart';
 import 'package:pacola_quiz/core/services/router.dart';
+import 'package:pacola_quiz/firebase_options.dart';
 import 'package:pacola_quiz/src/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   // ensure that the widgets binding is initialized before we call the init function
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
+
   // initialize the dependency injection container
   await init();
   runApp(

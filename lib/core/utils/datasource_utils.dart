@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DataSourceUtils {
   DataSourceUtils._();
 
-  static Future<void> authorizeUser(SupabaseClient supabaseClient) async {
-    final currentUser = supabaseClient.auth.currentUser;
+  static Future<void> authorizeUser(FirebaseAuth auth) async {
+    final currentUser = auth.currentUser;
     if (currentUser == null) {
       throw const ServerException(
         message: 'User is not authenticated',

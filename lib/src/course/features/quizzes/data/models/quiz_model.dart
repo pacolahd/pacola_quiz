@@ -12,8 +12,10 @@ class QuizModel extends Quiz {
     required super.title,
     required super.description,
     required super.timeLimit,
+    required super.createdBy,
     super.imageUrl,
     super.questions,
+    super.materialIds,
   });
 
   factory QuizModel.fromJson(String source) =>
@@ -27,6 +29,8 @@ class QuizModel extends Quiz {
           description: 'Test String',
           timeLimit: 0,
           questions: const [],
+          createdBy: 'Test String',
+          materialIds: const [],
         );
 
   QuizModel.fromMap(DataMap map)
@@ -38,6 +42,9 @@ class QuizModel extends Quiz {
           timeLimit: (map['timeLimit'] as num).toInt(),
           imageUrl: map['imageUrl'] as String?,
           questions: null,
+          createdBy: map['createdBy'] as String,
+          materialIds:
+              List<String>.from(map['material_ids'] as List<dynamic>? ?? []),
         );
 
   QuizModel.fromUploadMap(DataMap map)
@@ -53,6 +60,9 @@ class QuizModel extends Quiz {
           questions: List<DataMap>.from(map['questions'] as List<dynamic>)
               .map(QuizQuestionModel.fromUploadMap)
               .toList(),
+          createdBy: map['created_by'] as String,
+          materialIds:
+              List<String>.from(map['material_ids'] as List<dynamic>? ?? []),
         );
 
   QuizModel copyWith({
@@ -63,6 +73,8 @@ class QuizModel extends Quiz {
     String? description,
     int? timeLimit,
     String? imageUrl,
+    String? createdBy,
+    List<String>? materialIds,
   }) {
     return QuizModel(
       id: id ?? this.id,
@@ -72,6 +84,8 @@ class QuizModel extends Quiz {
       description: description ?? this.description,
       timeLimit: timeLimit ?? this.timeLimit,
       imageUrl: imageUrl ?? this.imageUrl,
+      createdBy: createdBy ?? this.createdBy,
+      materialIds: materialIds ?? this.materialIds,
     );
   }
 
@@ -83,6 +97,8 @@ class QuizModel extends Quiz {
       'description': description,
       'timeLimit': timeLimit,
       'imageUrl': imageUrl,
+      'createdBy': createdBy,
+      'material_ids': materialIds,
     };
   }
 }

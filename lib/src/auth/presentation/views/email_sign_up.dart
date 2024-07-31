@@ -123,45 +123,22 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           key: _signUpFormKey,
                           child: Column(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: CustomFormBuilderTitledTextField(
-                                      title: 'First Name',
-                                      name: 'firstName',
-                                      // contentPadding: const EdgeInsets.symmetric(
-                                      //     horizontal: 20, vertical: 20),
-                                      // suffixIcon: const Icon(
-                                      //     Icons),
-                                      validators: [
-                                        FormBuilderValidators.minLength(
-                                          3,
-                                          errorText: 'Must be > 2 characters',
-                                        ),
-                                        noNumericChars,
-                                      ],
-                                    ),
+                              CustomFormBuilderTitledTextField(
+                                title: 'Name',
+                                name: 'name',
+                                // contentPadding: const EdgeInsets.symmetric(
+                                //     horizontal: 20, vertical: 20),
+                                // suffixIcon: const Icon(
+                                //     Icons),
+                                validators: [
+                                  FormBuilderValidators.minLength(
+                                    3,
+                                    errorText: 'Must be > 2 characters',
                                   ),
-                                  SizedBox(width: context.height * 0.02),
-                                  Expanded(
-                                    child: CustomFormBuilderTitledTextField(
-                                      title: 'Last Name',
-                                      name: 'lastName',
-                                      // contentPadding: const EdgeInsets.symmetric(
-                                      //     horizontal: 20, vertical: 20),
-                                      // suffixIcon: const Icon(
-                                      //     HugeIcons.strokeRoundedUserAccount),
-                                      validators: [
-                                        FormBuilderValidators.minLength(
-                                          3,
-                                          errorText: 'Must be > 2 characters',
-                                        ),
-                                        noNumericChars,
-                                      ],
-                                    ),
-                                  ),
+                                  noNumericChars,
                                 ],
                               ),
+                              SizedBox(width: context.height * 0.02),
                               SizedBox(height: context.height * 0.015),
                               CustomFormBuilderTitledTextField(
                                 title: 'Email',
@@ -288,10 +265,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                                               email: data['email'] as String,
                                               password:
                                                   data['password'] as String,
-                                              firstName:
-                                                  data['firstName'] as String,
-                                              lastName:
-                                                  data['lastName'] as String,
+                                              fullName: data['name'] as String,
                                             ),
                                           );
                                     }

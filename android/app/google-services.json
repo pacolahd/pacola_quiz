@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "489723175985",
+    "project_id": "church-app-f5af2",
+    "storage_bucket": "church-app-f5af2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489723175985:android:44d2b0106de95a31cea110",
+        "android_client_info": {
+          "package_name": "com.pacolahd.church_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhmYmIoDCvvGbf8gmPyaMt_snWq6uh5Gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489723175985:android:9ef4581554a07847cea110",
+        "android_client_info": {
+          "package_name": "com.pacolahd.pacola_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhmYmIoDCvvGbf8gmPyaMt_snWq6uh5Gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

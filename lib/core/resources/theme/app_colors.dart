@@ -66,6 +66,13 @@ class AppColors {
 class _Brand {
   const _Brand();
 
+  List<Color> get gradient => [
+        const Color(0xFFEDF8FF),
+        const Color(0xFFFDC1E8),
+        const Color(0xFFFFFFFF),
+        const Color(0xFFFDFAE1),
+      ];
+
   Color get primary =>
       const Color(0xFF2196F3); // Blue color for active elements
   Color get primaryLight => const Color(0xFF64B5F6);

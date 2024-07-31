@@ -6,8 +6,7 @@ class UserModel extends UserEntity {
   const UserModel({
     required super.id,
     required super.email,
-    required super.firstName,
-    required super.lastName,
+    required super.fullName,
     super.profilePic,
   });
 
@@ -15,16 +14,14 @@ class UserModel extends UserEntity {
       : this(
           id: '',
           email: '',
-          firstName: '',
-          lastName: '',
+          fullName: '',
         );
 
   factory UserModel.fromMap(DataMap map) {
     return UserModel(
       id: map['id'] as String,
       email: map['email'] as String,
-      firstName: map['first_name'] as String,
-      lastName: map['last_name'] as String,
+      fullName: map['fullName'] as String,
       profilePic: map['profile_pic'] as String?,
     );
   }
@@ -32,15 +29,13 @@ class UserModel extends UserEntity {
   UserModel copyWith({
     String? id,
     String? email,
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? profilePic,
   }) {
     return UserModel(
       id: id ?? this.id,
       email: email ?? this.email,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      fullName: fullName ?? this.fullName,
       profilePic: profilePic ?? this.profilePic,
     );
   }
@@ -49,8 +44,7 @@ class UserModel extends UserEntity {
     return {
       'id': id,
       'email': email,
-      'first_name': firstName,
-      'last_name': lastName,
+      'fullName': fullName,
       'profile_pic': profilePic,
     };
   }

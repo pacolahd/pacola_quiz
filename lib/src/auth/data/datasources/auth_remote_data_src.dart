@@ -1,54 +1,63 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pacola_quiz/core/enums/update_user.dart';
+import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
 import 'package:pacola_quiz/core/utils/constants.dart';
 import 'package:pacola_quiz/core/utils/datasource_utils.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> signIn({required String email, required String password});
   Future<UserModel> signInWithGoogle();
   Future<void> signUp({
     required String email,
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String password,
   });
   Future<void> forgotPassword(String email);
-  Future<void> updateUser({required UpdateUserAction action, dynamic userData});
-  Session? get currentSession;
+  Future<void> updateUser({
+    required UpdateUserAction action,
+    required dynamic userData,
+  });
+  User? get currentUser;
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl({
-    required SupabaseClient supabaseClient,
+    required FirebaseAuth authClient,
+    required FirebaseFirestore firestoreClient,
+    required FirebaseStorage storageClient,
     required Connectivity connectivity,
-  })  : _supabaseClient = supabaseClient,
+  })  : _authClient = authClient,
+        _firestoreClient = firestoreClient,
+        _storageClient = storageClient,
         _connectivity = connectivity;
 
-  final SupabaseClient _supabaseClient;
+  final FirebaseAuth _authClient;
+  final FirebaseFirestore _firestoreClient;
+  final FirebaseStorage _storageClient;
   final Connectivity _connectivity;
 
   @override
-  Session? get currentSession => _supabaseClient.auth.currentSession;
+  User? get currentUser => _authClient.currentUser;
 
   @override
   Future<void> forgotPassword(String email) async {
     try {
       await DataSourceUtils.checkInternetConnection(_connectivity);
-
-      await _supabaseClient.auth.resetPasswordForEmail(email);
-    } on AuthException catch (e) {
+      await _authClient.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
       throw ServerException(
-        message: e.message,
-        statusCode: 'auth/error',
+        message: e.message ?? 'Password reset failed',
+        statusCode: e.code,
       );
     } catch (e) {
       throw ServerException(
@@ -65,12 +74,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       await DataSourceUtils.checkInternetConnection(_connectivity);
-      final result = await _supabaseClient.auth.signInWithPassword(
+      final userCredential = await _authClient.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      final user = result.user;
+      final user = userCredential.user;
 
       if (user == null) {
         throw const ServerException(
@@ -79,21 +88,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
       }
 
-      var userData = await _getUserData(user.id);
+      var userData = await _getUserData(user.uid);
 
-      if (userData != null) {
-        return UserModel.fromMap(userData);
+      if (userData.exists) {
+        return UserModel.fromMap(userData.data()!);
       }
 
       // upload the user
-      await _setUserData(user);
+      await _setUserData(user, email);
 
-      userData = await _getUserData(user.id);
-      return UserModel.fromMap(userData!);
-    } on AuthException catch (e) {
+      userData = await _getUserData(user.uid);
+      return UserModel.fromMap(userData.data()!);
+    } on FirebaseAuthException catch (e) {
       throw ServerException(
-        message: e.message,
-        statusCode: 'auth/error',
+        message: e.message ?? 'Authentication failed',
+        statusCode: e.code,
       );
     } on ServerException {
       rethrow;
@@ -108,40 +117,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> signUp({
     required String email,
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String password,
   }) async {
     try {
       await DataSourceUtils.checkInternetConnection(_connectivity);
 
-      final response = await _supabaseClient.auth.signUp(
+      final userCredential = await _authClient.createUserWithEmailAndPassword(
         email: email,
         password: password,
-        data: {
-          'first_name': firstName,
-          'last_name': lastName,
-          'profile_pic': kDefaultAvatar,
-        },
-        // emailRedirectTo: kIsWeb ? null : kEmailRedirectTo,
       );
 
-      if (response.user == null) {
+      final user = userCredential.user;
+      if (user == null) {
         throw const ServerException(
           message: 'Please try again later',
           statusCode: 'Unknown Error',
         );
       }
 
-      await _setUserData(response.user!);
-    } on AuthException catch (e) {
-      debugPrint(e.message);
+      await user.updateDisplayName(fullName);
+      await user.updatePhotoURL(kDefaultAvatar);
+
+      await _setUserData(_authClient.currentUser!, email);
+    } on FirebaseAuthException catch (e) {
       throw ServerException(
-        message: e.message,
-        statusCode: 'auth/error',
+        message: e.message ?? 'Sign up failed',
+        statusCode: e.code,
       );
-    } catch (e) {
-      debugPrint(e.toString());
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
       throw ServerException(
         message: e.toString(),
         statusCode: '505',
@@ -152,50 +157,49 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> updateUser({
     required UpdateUserAction action,
-    dynamic userData,
+    required dynamic userData,
   }) async {
     try {
-      // Check for internet connection
       await DataSourceUtils.checkInternetConnection(_connectivity);
+      await DataSourceUtils.authorizeUser(_authClient);
 
-      // Authorize user
-      await DataSourceUtils.authorizeUser(_supabaseClient);
-
-      final userId = _supabaseClient.auth.currentUser!.id;
+      final user = _authClient.currentUser!;
       switch (action) {
         case UpdateUserAction.email:
-          await _supabaseClient.auth.updateUser(UserAttributes(
-            email: userData as String,
-          ));
+          await user.updateEmail(userData as String);
           await _updateUserData({'email': userData});
-        case UpdateUserAction.firstName:
-          await _updateUserData({'first_name': userData as String});
-        case UpdateUserAction.lastName:
-          await _updateUserData({'last_name': userData as String});
+        case UpdateUserAction.fullName:
+          await user.updateDisplayName(userData as String);
+          await _updateUserData({'full_name': userData});
         case UpdateUserAction.profilePic:
-          final filePath = '$userId/profile_pic/profile_image';
-          await _supabaseClient.storage.from('user_data').upload(
-              filePath, userData as File,
-              fileOptions: const FileOptions(upsert: true));
-          final url =
-              _supabaseClient.storage.from('users').getPublicUrl(filePath);
+          final ref = _storageClient
+              .ref()
+              .child('profile_pics/${_authClient.currentUser?.uid}');
+
+          await ref.putFile(userData as File);
+          final url = await ref.getDownloadURL();
+          await user.updatePhotoURL(url);
           await _updateUserData({'profile_pic': url});
         case UpdateUserAction.password:
-          if (_supabaseClient.auth.currentUser?.email == null) {
+          if (user.email == null) {
             throw const ServerException(
               message: 'User does not exist',
               statusCode: 'Insufficient Permission',
             );
           }
           final newData = jsonDecode(userData as String) as DataMap;
-          await _supabaseClient.auth.updateUser(
-            UserAttributes(password: newData['newPassword'] as String),
+          await user.reauthenticateWithCredential(
+            EmailAuthProvider.credential(
+              email: user.email!,
+              password: newData['oldPassword'] as String,
+            ),
           );
+          await user.updatePassword(newData['newPassword'] as String);
       }
-    } on AuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw ServerException(
-        message: e.message,
-        statusCode: 'auth/error',
+        message: e.message ?? 'Update failed',
+        statusCode: e.code,
       );
     } catch (e) {
       throw ServerException(
@@ -205,30 +209,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  Future<Map<String, dynamic>?> _getUserData(String uid) async {
-    final response =
-        await _supabaseClient.from('users').select().eq('id', uid).single();
-    return response;
+  Future<DocumentSnapshot<DataMap>> _getUserData(String uid) async {
+    return _firestoreClient.collection('users').doc(uid).get();
   }
 
-  Future<void> _setUserData(User user) async {
-    await _supabaseClient.from('users').upsert(
+  Future<void> _setUserData(User user, String fallbackEmail) async {
+    await _firestoreClient.collection('users').doc(user.uid).set(
           UserModel(
-            id: user.id,
-            email: user.email?.toLowerCase() ?? '',
-            firstName: user.userMetadata?['first_name'] as String ?? '',
-            lastName: user.userMetadata?['last_name'] as String ?? '',
-            profilePic:
-                user.userMetadata?['profile_pic'] as String? ?? kDefaultAvatar,
+            id: user.uid,
+            email: user.email?.toLowerCase() ?? fallbackEmail,
+            fullName: user.displayName ?? '',
+            profilePic: user.photoURL ?? kDefaultAvatar,
           ).toMap(),
         );
   }
 
   Future<void> _updateUserData(Map<String, dynamic> data) async {
-    await _supabaseClient
-        .from('users')
-        .update(data)
-        .eq('id', _supabaseClient.auth.currentUser!.id);
+    await _firestoreClient
+        .collection('users')
+        .doc(_authClient.currentUser!.uid)
+        .update(data);
   }
 
   @override
@@ -248,29 +248,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final googleAuth = await googleUser.authentication;
 
-      final accessToken = googleAuth.accessToken;
-      final idToken = googleAuth.idToken;
-
-      if (accessToken == null) {
-        throw const ServerException(
-          message: 'No Access Token found.',
-          statusCode: 'auth/no-access-token',
-        );
-      }
-      if (idToken == null) {
-        throw const ServerException(
-          message: 'No ID Token found.',
-          statusCode: 'auth/no-id-token',
-        );
-      }
-
-      final response = await _supabaseClient.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
-      final user = response.user;
+      final userCredential = await _authClient.signInWithCredential(credential);
+      final user = userCredential.user;
 
       if (user == null) {
         throw const ServerException(
@@ -279,18 +263,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
       }
 
-      var userData = await _getUserData(user.id);
+      var userData = await _getUserData(user.uid);
 
-      if (userData == null) {
-        await _setUserData(user);
-        userData = await _getUserData(user.id);
+      if (userData.exists) {
+        await _setUserData(user, googleUser.email);
+        userData = await _getUserData(user.uid);
       }
 
-      return UserModel.fromMap(userData!);
-    } on AuthException catch (e) {
+      return UserModel.fromMap(userData.data()!);
+    } on FirebaseAuthException catch (e) {
       throw ServerException(
-        message: e.message,
-        statusCode: 'auth/error',
+        message: e.message ?? 'Google sign-in failed',
+        statusCode: e.code,
       );
     } catch (e) {
       throw ServerException(

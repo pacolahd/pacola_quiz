@@ -1,6 +1,6 @@
 // lib/features/auth/data/repositories/auth_repository_impl.dart
 import 'package:dartz/dartz.dart';
-import 'package:pacola_quiz/core/enums/update_user.dart';
+import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
 import 'package:pacola_quiz/core/errors/failures.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
@@ -42,15 +42,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   ResultFuture<void> signUp({
     required String email,
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String password,
   }) async {
     try {
       await _remoteDataSource.signUp(
         email: email,
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         password: password,
       );
       return const Right(null);

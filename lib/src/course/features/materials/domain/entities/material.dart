@@ -1,26 +1,28 @@
 import 'package:equatable/equatable.dart';
 
-class Material extends Equatable {
-  const Material({
+class Resource extends Equatable {
+  const Resource({
     required this.id,
     required this.courseId,
-    required this.quizId,
     required this.uploadDate,
     required this.fileURL,
     required this.fileExtension,
+    required this.uploadedBy,
     this.title,
     this.description,
+    this.usedInQuizzes = const [],
   });
 
   final String id;
   final String courseId;
-  final String quizId;
+  final String? title;
+  final String? description;
   final DateTime uploadDate;
   final String fileURL;
   final String fileExtension;
-  final String? title;
-  final String? description;
+  final String uploadedBy;
+  final List<String> usedInQuizzes;
 
   @override
-  List<Object?> get props => [id, courseId, quizId];
+  List<Object?> get props => [id];
 }

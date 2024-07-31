@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/data/models/user_choice_model.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/domain/entities/user_choice.dart';
@@ -11,6 +12,7 @@ class UserQuizModel extends UserQuiz {
     required super.quizTitle,
     required super.totalQuestions,
     required super.dateSubmitted,
+    required super.score,
     super.quizImageUrl,
   });
 
@@ -23,6 +25,7 @@ class UserQuizModel extends UserQuiz {
           quizImageUrl: 'Test String',
           dateSubmitted: date ?? DateTime.now(),
           answers: const [],
+          score: 0,
         );
 
   UserQuizModel.fromMap(DataMap map)
@@ -32,10 +35,11 @@ class UserQuizModel extends UserQuiz {
           totalQuestions: (map['totalQuestions'] as num).toInt(),
           quizTitle: map['quizTitle'] as String,
           quizImageUrl: map['quizImageUrl'] as String?,
-          dateSubmitted: DateTime.parse(map['dateSubmitted'] as String),
+          dateSubmitted: (map['dateSubmitted'] as Timestamp).toDate(),
           answers: List<DataMap>.from(map['answers'] as List<dynamic>)
               .map(UserChoiceModel.fromMap)
               .toList(),
+          score: (map['score'] as num).toInt(),
         );
 
   UserQuizModel copyWith({
@@ -46,6 +50,7 @@ class UserQuizModel extends UserQuiz {
     String? quizImageUrl,
     DateTime? dateSubmitted,
     List<UserChoice>? answers,
+    int score = 0,
   }) {
     return UserQuizModel(
       quizId: quizId ?? this.quizId,
@@ -55,6 +60,7 @@ class UserQuizModel extends UserQuiz {
       quizImageUrl: quizImageUrl ?? this.quizImageUrl,
       dateSubmitted: dateSubmitted ?? this.dateSubmitted,
       answers: answers ?? this.answers,
+      score: score,
     );
   }
 
@@ -65,9 +71,10 @@ class UserQuizModel extends UserQuiz {
       'totalQuestions': totalQuestions,
       'quizTitle': quizTitle,
       'quizImageUrl': quizImageUrl,
-      'dateSubmitted': DateTime.now().toIso8601String(),
+      'dateSubmitted': Timestamp.fromDate(dateSubmitted),
       'answers':
           answers.map((answer) => (answer as UserChoiceModel).toMap()).toList(),
+      'score': score,
     };
   }
 }

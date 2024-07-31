@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pacola_quiz/core/common/app/providers/tab_navigator.dart';
 import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
 import 'package:pacola_quiz/core/resources/theme/app_text_theme.dart';
@@ -17,6 +18,12 @@ extension ContextExtension on BuildContext {
 //Uncomment and adjust these lines when you have implemented user authentication
   UserProvider get userProvider => read<UserProvider>();
   UserEntity? get currentUser => userProvider.user;
+
+  TabNavigator get tabNavigator => read<TabNavigator>();
+
+  void pop() => tabNavigator.pop();
+
+  void push(Widget page) => tabNavigator.push(TabItem(child: page));
 }
 
 extension CustomThemeData on ThemeData {

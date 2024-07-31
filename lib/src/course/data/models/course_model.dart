@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/course/domain/entities/course.dart';
 
@@ -9,6 +10,7 @@ class CourseModel extends Course {
     required super.numberOfMaterials,
     required super.createdAt,
     required super.updatedAt,
+    required super.createdBy, // Add this line
     super.description,
     super.image,
   });
@@ -22,6 +24,7 @@ class CourseModel extends Course {
           numberOfMaterials: 0,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
+          createdBy: '_empty.userId', // Add this line
         );
 
   CourseModel.fromMap(DataMap map)
@@ -29,12 +32,25 @@ class CourseModel extends Course {
           id: map['id'] as String,
           title: map['title'] as String,
           description: map['description'] as String?,
-          numberOfQuizzes: (map['numberOfQuizzes'] as num).toInt(),
-          numberOfMaterials: (map['numberOfMaterials'] as num).toInt(),
+          numberOfQuizzes: (map['number_of_quizzes'] as num).toInt(),
+          numberOfMaterials: (map['number_of_materials'] as num).toInt(),
           image: map['image'] as String?,
-          createdAt: DateTime.parse(map['createdAt'] as String),
-          updatedAt: DateTime.parse(map['updatedAt'] as String),
+          createdAt: (map['createdAt'] as Timestamp).toDate(),
+          updatedAt: (map['updatedAt'] as Timestamp).toDate(),
+          createdBy: map['created_by'] as String, // Add this line
         );
+
+  DataMap toMap() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'image': image,
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+        'number_of_quizzes': numberOfQuizzes,
+        'number_of_materials': numberOfMaterials,
+        'created_by': createdBy, // Add this line
+      };
 
   CourseModel copyWith({
     String? id,
@@ -45,6 +61,7 @@ class CourseModel extends Course {
     String? image,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? createdBy,
   }) {
     return CourseModel(
       id: id ?? this.id,
@@ -55,17 +72,7 @@ class CourseModel extends Course {
       numberOfMaterials: numberOfMaterials ?? this.numberOfMaterials,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      createdBy: createdBy ?? this.createdBy,
     );
   }
-
-  DataMap toMap() => {
-        'id': id,
-        'title': title,
-        'description': description,
-        'image': image,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
-        'numberOfQuizzes': numberOfQuizzes,
-        'numberOfMaterials': numberOfMaterials,
-      };
 }

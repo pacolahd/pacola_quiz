@@ -20,7 +20,7 @@ class _TestState extends State<Test> {
                 context.userProvider.user?.profilePic ?? '',
                 height: context.height * 0.3,
               ),
-              Text(context.userProvider.user?.lastName ?? 'No email'),
+              Text(context.userProvider.user?.fullName ?? 'No email'),
               Text('Test'),
             ],
           ),

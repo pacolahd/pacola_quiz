@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:iconly/iconly.dart';
 import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
-import 'package:pacola_quiz/core/extensions/context_extensions.dart';
+import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
 import 'package:pacola_quiz/src/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:pacola_quiz/src/dashboard/presentation/utils/dashboard_utils.dart';
@@ -30,12 +29,11 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<UserModel>(
       stream: DashboardUtils.userDataStream,
       builder: (_, snapshot) {
         if (snapshot.hasData && snapshot.data is UserModel) {
-          context.read<UserProvider>().user =
-              snapshot.data?.map(UserModel.fromMap).first;
+          context.read<UserProvider>().user = snapshot.data;
           debugPrint('User: ${snapshot.data}');
           debugPrint(context.read<UserProvider>().user.toString());
         }
@@ -56,10 +54,10 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 0
-                          ? HugeIcons.strokeRoundedHome11
-                          : HugeIcons.strokeRoundedHome02,
+                          ? IconlyBold.home
+                          : IconlyLight.home,
                       color: controller.currentIndex == 0
-                          ? context.theme.colorScheme.primary
+                          ? AppColors.brand.primary
                           : Colors.grey,
                     ),
                     label: 'Home',
@@ -68,10 +66,10 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 1
-                          ? HugeIcons.strokeRoundedDocumentCode
-                          : HugeIcons.strokeRoundedDocumentCode,
+                          ? IconlyBold.document
+                          : IconlyLight.document,
                       color: controller.currentIndex == 1
-                          ? context.theme.colorScheme.primary
+                          ? AppColors.brand.primary
                           : Colors.grey,
                     ),
                     label: 'Materials',
@@ -80,10 +78,10 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 2
-                          ? HugeIcons.strokeRoundedAiChat01
-                          : HugeIcons.strokeRoundedAiChat01,
+                          ? IconlyBold.chat
+                          : IconlyLight.chat,
                       color: controller.currentIndex == 2
-                          ? context.theme.colorScheme.primary
+                          ? AppColors.brand.primary
                           : Colors.grey,
                     ),
                     label: 'Chat',
@@ -92,10 +90,10 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 3
-                          ? IconlyLight.profile
+                          ? IconlyBold.profile
                           : IconlyLight.profile,
                       color: controller.currentIndex == 3
-                          ? context.theme.colorScheme.primary
+                          ? AppColors.brand.primary
                           : Colors.grey,
                     ),
                     label: 'User',

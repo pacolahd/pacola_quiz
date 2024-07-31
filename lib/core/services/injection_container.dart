@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pacola_quiz/src/auth/data/datasources/auth_remote_data_src.dart';
 import 'package:pacola_quiz/src/auth/data/repositories/auth_repo_impl.dart';
@@ -9,6 +12,30 @@ import 'package:pacola_quiz/src/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:pacola_quiz/src/auth/domain/usecases/sign_up.dart';
 import 'package:pacola_quiz/src/auth/domain/usecases/update_user.dart';
 import 'package:pacola_quiz/src/auth/presentation/bloc/auth_bloc.dart';
+import 'package:pacola_quiz/src/course/data/datasources/course_remote_data_src.dart';
+import 'package:pacola_quiz/src/course/data/repos/course_repo_impl.dart';
+import 'package:pacola_quiz/src/course/domain/repos/course_repo.dart';
+import 'package:pacola_quiz/src/course/domain/usecases/add_course.dart';
+import 'package:pacola_quiz/src/course/domain/usecases/get_courses.dart';
+import 'package:pacola_quiz/src/course/features/materials/data/datasources/material_remote_data_src.dart';
+import 'package:pacola_quiz/src/course/features/materials/data/repos/material_repo_impl.dart';
+import 'package:pacola_quiz/src/course/features/materials/domain/repos/material_repo.dart';
+import 'package:pacola_quiz/src/course/features/materials/domain/usecases/add_material.dart';
+import 'package:pacola_quiz/src/course/features/materials/domain/usecases/get_materials.dart';
+import 'package:pacola_quiz/src/course/features/materials/domain/usecases/get_materials_for_quiz.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/data/datasources/quiz_remote_data_src.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/data/repos/quiz_repo_impl.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/repos/quiz_repo.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/get_quiz_questions.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/get_quizzes.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/get_quizzes_using_material.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/get_user_course_quizzes.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/get_user_quizzes.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/submit_quiz.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/update_quiz.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/domain/usecases/uplad_quiz.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/presentation/app/cubit/quiz_cubit.dart';
+import 'package:pacola_quiz/src/course/presentation/bloc/course_cubit.dart';
 import 'package:pacola_quiz/src/on_boarding/data/datasources/on_boarding_local_data_source.dart';
 import 'package:pacola_quiz/src/on_boarding/data/repos/on_boarding_repo_impl.dart';
 import 'package:pacola_quiz/src/on_boarding/domain/repos/on_boarding_repo.dart';
@@ -16,6 +43,7 @@ import 'package:pacola_quiz/src/on_boarding/domain/usecases/cache_first_timer.da
 import 'package:pacola_quiz/src/on_boarding/domain/usecases/check_if_user_is_first_timer.dart';
 import 'package:pacola_quiz/src/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../src/course/features/materials/presentation/app/cubit/material_cubit.dart';
 
 part 'injection_container.main.dart';

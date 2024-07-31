@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pacola_quiz/core/enums/update_user.dart';
+import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
 import 'package:pacola_quiz/src/auth/domain/usecases/forgot_password.dart';
 import 'package:pacola_quiz/src/auth/domain/usecases/sign_in.dart';
@@ -84,8 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _signUp(
       SignUpParams(
         email: event.email,
-        firstName: event.firstName,
-        lastName: event.lastName,
+        fullName: event.fullName,
         password: event.password,
       ),
     );

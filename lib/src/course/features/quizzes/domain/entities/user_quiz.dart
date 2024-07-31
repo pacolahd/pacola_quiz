@@ -9,6 +9,7 @@ class UserQuiz extends Equatable {
     required this.quizTitle,
     required this.dateSubmitted,
     required this.answers,
+    required this.score,
     this.quizImageUrl,
   });
 
@@ -21,6 +22,7 @@ class UserQuiz extends Equatable {
           quizImageUrl: 'Test String',
           dateSubmitted: date ?? DateTime.now(),
           answers: const [],
+          score: 0,
         );
 
   final String quizId;
@@ -30,6 +32,7 @@ class UserQuiz extends Equatable {
   final String? quizImageUrl;
   final DateTime dateSubmitted;
   final List<UserChoice> answers;
+  final int score;
 
   @override
   List<Object?> get props => [quizId, courseId];
