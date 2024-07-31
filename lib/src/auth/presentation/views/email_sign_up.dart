@@ -11,7 +11,7 @@ import 'package:pacola_quiz/core/resources/media_resources.dart';
 import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
 import 'package:pacola_quiz/core/utils/core_utils.dart';
 import 'package:pacola_quiz/src/auth/presentation/bloc/auth_bloc.dart';
-import 'package:pacola_quiz/src/auth/presentation/views/sign_in_screen.dart';
+import 'package:pacola_quiz/src/auth/presentation/views/email_login_screen.dart';
 
 class EmailSignUpScreen extends StatefulWidget {
   const EmailSignUpScreen({Key? key}) : super(key: key);
@@ -32,6 +32,11 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   bool _hasNumberOrSpecialChar = false;
   bool _passwordTouched = false;
   bool _reverseScrollDirection = false;
+
+  void dispose() {
+    super.dispose();
+    CoreUtils.unfocusAllFields(context);
+  }
 
   void _updatePasswordCriteria(String? value) {
     setState(() {
@@ -56,37 +61,45 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (_, state) {
-          if (state is AuthError) {
-            if (state.message == 'auth/error: Email rate limit exceeded') {
-              CoreUtils.showSnackBar(context,
-                  'Email has been sent to your inbox already. Please confirm your sign up.');
-            } else {
-              CoreUtils.showSnackBar(context, state.message);
+        listener: (context, state) {
+          if (state is AuthLoading) {
+            CoreUtils.showLoadingDialog(context);
+          } else {
+            // Dismiss the loading dialog if it's showing
+            Navigator.of(context).popUntil((route) => route is! DialogRoute);
+
+            if (state is AuthError) {
+              CoreUtils.showMessageDialog(
+                context,
+                title: 'Error',
+                message: state.message,
+                type: MessageType.error,
+              );
+            } else if (state is SignedUp) {
+              debugPrint('SignedUp state received, showing dialog');
+              CoreUtils.showMessageDialog(
+                context,
+                title: 'Success',
+                message: 'Successfully Signed you up. Now you have to log in',
+                type: MessageType.success,
+              );
+
+              // Use Future.delayed to navigate after a short delay
+              Future.delayed(Duration(seconds: 2), () {
+                _signUpFormKey.currentState?.reset();
+                CoreUtils.unfocusAllFields(context);
+                Navigator.pushReplacementNamed(
+                  context,
+                  EmailLogInScreen.routeName,
+                );
+              });
             }
-          } else if (state is SignedUp) {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => AlertDialog(
-                title: Text('Verify Your Email'),
-                content: Text(
-                    'An email has been sent to your inbox. Please verify your email to complete the sign-up process.'),
-                actions: [
-                  TextButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                      Navigator.pushReplacementNamed(
-                          context, SignInScreen.routeName);
-                    },
-                  ),
-                ],
-              ),
-            );
           }
         },
         builder: (context, state) {
+          // if (state is AuthLoading) {
+          //   return const Center(child: LoadingView());
+          // }
           return ImageGradientBackground(
             image: MediaRes.onBoardingBackground,
             child: Stack(
@@ -271,6 +284,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                                 ),
                                 child: const Text('Sign up'),
                                 onPressed: () {
+                                  CoreUtils.unfocusAllFields(context);
                                   if (_signUpFormKey.currentState
                                           ?.saveAndValidate() ??
                                       false) {
@@ -340,6 +354,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
+                // if (state is AuthLoading) const LoadingView(),
               ],
             ),
           );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pacola_quiz/core/common/app/providers/tab_navigator.dart';
 import 'package:pacola_quiz/core/common/views/persistent_view.dart';
+import 'package:pacola_quiz/src/test.dart';
 import 'package:provider/provider.dart';
 
 class DashboardController extends ChangeNotifier {
@@ -8,13 +9,7 @@ class DashboardController extends ChangeNotifier {
   final List<Widget> _screens = [
     ChangeNotifierProvider(
       create: (_) => TabNavigator(
-        TabItem(
-          child: Container(
-            child: const Center(
-              child: Text('Home View'),
-            ),
-          ),
-        ),
+        TabItem(child: Test()),
       ),
       child: const PersistentView(),
     ),

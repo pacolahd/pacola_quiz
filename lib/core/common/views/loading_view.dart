@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pacola_quiz/core/common/widgets/custom_loading_indicator.dart';
+import 'package:pacola_quiz/core/extensions/context_extensions.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Material(
+    return Material(
       type: MaterialType.transparency,
       child: Center(
-        child: CustomLoadingIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+            context.theme.colorScheme.secondary,
+          ),
+        ),
       ),
     );
   }

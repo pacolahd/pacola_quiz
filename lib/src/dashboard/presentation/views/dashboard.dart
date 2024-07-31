@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:iconly/iconly.dart';
 import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/extensions/context_extensions.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
@@ -55,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 0
-                          ? HugeIcons.strokeRoundedHome01
+                          ? HugeIcons.strokeRoundedHome11
                           : HugeIcons.strokeRoundedHome02,
                       color: controller.currentIndex == 0
                           ? context.theme.colorScheme.primary
@@ -91,8 +92,8 @@ class _DashboardState extends State<Dashboard> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 3
-                          ? HugeIcons.strokeRoundedProfile
-                          : HugeIcons.strokeRoundedProfile,
+                          ? IconlyLight.profile
+                          : IconlyLight.profile,
                       color: controller.currentIndex == 3
                           ? context.theme.colorScheme.primary
                           : Colors.grey,

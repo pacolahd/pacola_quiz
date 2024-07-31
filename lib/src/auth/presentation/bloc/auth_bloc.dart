@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pacola_quiz/core/enums/update_user.dart';
 import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
 import 'package:pacola_quiz/src/auth/domain/usecases/forgot_password.dart';
@@ -89,8 +90,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
     result.fold(
-      (failure) => emit(AuthError(failure.errorMessage)),
-      (_) => emit(const SignedUp()),
+      (failure) {
+        emit(AuthError(failure.errorMessage));
+      },
+      (_) {
+        debugPrint('---------------signed up-------------------');
+        emit(
+          const SignedUp(),
+        );
+      },
     );
   }
 

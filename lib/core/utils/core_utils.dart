@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pacola_quiz/core/common/widgets/custom_loading_indicator.dart';
 import 'package:pacola_quiz/core/extensions/context_extensions.dart';
+import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
+
+enum MessageType { success, error, warning, info }
 
 class CoreUtils {
   const CoreUtils._();
+
+  static void unfocusAllFields(BuildContext context) {
+    FocusScope.of(context).unfocus();
+  }
 
   static void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context)
@@ -31,12 +38,137 @@ class CoreUtils {
   }
 
   static void showLoadingDialog(BuildContext context) {
-    showDialog<void>(
+    showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const Center(
-        child: CustomLoadingIndicator(),
-      ),
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      child: CustomLoadingIndicator(),
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      'Just a moment...',
+                      style: TextStyle(
+                        color: AppColors.textColor.lightPrimary,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static void showMessageDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required MessageType type,
+    VoidCallback? onDismiss,
+  }) {
+    Color getColor() {
+      switch (type) {
+        case MessageType.success:
+          return AppColors.feedback.success;
+        case MessageType.error:
+          return AppColors.feedback.error;
+        case MessageType.warning:
+          return AppColors.feedback.warning;
+        case MessageType.info:
+          return AppColors.feedback.info;
+      }
+    }
+
+    IconData getIcon() {
+      switch (type) {
+        case MessageType.success:
+          return Icons.check_circle;
+        case MessageType.error:
+          return Icons.error;
+        case MessageType.warning:
+          return Icons.warning;
+        case MessageType.info:
+          return Icons.info;
+      }
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      getIcon(),
+                      color: getColor(),
+                      size: 20,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textColor.lightPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 13),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: context.theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.textColor.lightSecondary,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.ui.darkBlue, // Dark blue
+                    side: const BorderSide(color: Colors.grey),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  onPressed: onDismiss ??
+                      () {
+                        Navigator.of(context).pop();
+                      },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

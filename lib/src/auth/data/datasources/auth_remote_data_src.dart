@@ -123,7 +123,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'last_name': lastName,
           'profile_pic': kDefaultAvatar,
         },
-        emailRedirectTo: kIsWeb ? null : kEmailRedirectTo,
+        // emailRedirectTo: kIsWeb ? null : kEmailRedirectTo,
       );
 
       if (response.user == null) {
