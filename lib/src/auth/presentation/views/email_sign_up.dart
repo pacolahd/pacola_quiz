@@ -65,7 +65,25 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
               CoreUtils.showSnackBar(context, state.message);
             }
           } else if (state is SignedUp) {
-            Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => AlertDialog(
+                title: Text('Verify Your Email'),
+                content: Text(
+                    'An email has been sent to your inbox. Please verify your email to complete the sign-up process.'),
+                actions: [
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                      Navigator.pushReplacementNamed(
+                          context, SignInScreen.routeName);
+                    },
+                  ),
+                ],
+              ),
+            );
           }
         },
         builder: (context, state) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pacola_quiz/core/common/app/providers/theme_provider.dart';
+import 'package:pacola_quiz/core/common/app/providers/user_provider.dart';
 import 'package:pacola_quiz/core/resources/theme/app_theme.dart';
 import 'package:pacola_quiz/core/services/injection_container.dart';
 import 'package:pacola_quiz/core/services/router.dart';
+import 'package:pacola_quiz/src/dashboard/presentation/providers/dashboard_controller.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -16,6 +18,13 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DashboardController(),
+        ),
+
         // Add more providers here
       ],
       child: const MyApp(),

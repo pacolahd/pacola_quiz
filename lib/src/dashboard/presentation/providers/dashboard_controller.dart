@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pacola_quiz/core/common/app/providers/tab_navigator.dart';
 import 'package:pacola_quiz/core/common/views/persistent_view.dart';
 import 'package:provider/provider.dart';
@@ -10,16 +9,9 @@ class DashboardController extends ChangeNotifier {
     ChangeNotifierProvider(
       create: (_) => TabNavigator(
         TabItem(
-          child: MultiBlocProvider(
-            providers: const [
-              // BlocProvider(create: (_) => sl<CourseCubit>()),
-              // BlocProvider(create: (_) => sl<VideoCubit>()),
-              // BlocProvider.value(value: sl<NotificationCubit>()),
-            ],
-            child: Container(
-              child: const Center(
-                child: Text('Home View'),
-              ),
+          child: Container(
+            child: const Center(
+              child: Text('Home View'),
             ),
           ),
         ),
@@ -62,7 +54,7 @@ class DashboardController extends ChangeNotifier {
   ];
 
   List<Widget> get screens => _screens;
-  int _currentIndex = 3;
+  int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;
 

@@ -38,12 +38,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           // While doing so we also want to pass the userData to the home screen
           else if (sl<SupabaseClient>().auth.currentUser != null) {
             final user = sl<SupabaseClient>().auth.currentUser!;
+            debugPrint('User Hmm: ${user.toJson()}');
             final localUser = UserModel(
               id: user.id,
               email: user.email ?? '',
               firstName: user.userMetadata?['first_name'] as String ?? '',
               lastName: user.userMetadata?['last_name'] as String ?? '',
-              profilePic: user.userMetadata?['avatar_url'] as String ?? '',
+              profilePic: user.userMetadata?['profile_pic'] as String ?? '',
             );
             // Assuming you have a userProvider in your context
             context.userProvider.initUser(localUser);

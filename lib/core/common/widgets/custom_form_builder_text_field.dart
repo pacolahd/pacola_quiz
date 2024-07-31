@@ -68,7 +68,9 @@ class CustomFormBuilderTextField extends StatelessWidget {
             },
       onTapOutside: (_) {
         FocusScope.of(context).unfocus();
-        additionalTapOutside!();
+        if (additionalTapOutside != null) {
+          additionalTapOutside;
+        }
       },
       maxLines: maxLines,
       keyboardType: keyboardType,

@@ -29,11 +29,14 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UserModel>(
+    return StreamBuilder(
       stream: DashboardUtils.userDataStream,
       builder: (_, snapshot) {
         if (snapshot.hasData && snapshot.data is UserModel) {
-          context.read<UserProvider>().user = snapshot.data;
+          context.read<UserProvider>().user =
+              snapshot.data?.map(UserModel.fromMap).first;
+          debugPrint('User: ${snapshot.data}');
+          debugPrint(context.read<UserProvider>().user.toString());
         }
         return Consumer<DashboardController>(
           builder: (_, controller, __) {

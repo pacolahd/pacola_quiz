@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pacola_quiz/core/enums/update_user.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
@@ -123,6 +123,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'last_name': lastName,
           'profile_pic': kDefaultAvatar,
         },
+        emailRedirectTo: kIsWeb ? null : kEmailRedirectTo,
       );
 
       if (response.user == null) {
@@ -206,12 +207,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   Future<Map<String, dynamic>?> _getUserData(String uid) async {
     final response =
-        await _supabaseClient.from('profiles').select().eq('id', uid).single();
+        await _supabaseClient.from('users').select().eq('id', uid).single();
     return response;
   }
 
   Future<void> _setUserData(User user) async {
-    await _supabaseClient.from('profiles').upsert(
+    await _supabaseClient.from('users').upsert(
           UserModel(
             id: user.id,
             email: user.email?.toLowerCase() ?? '',
@@ -225,7 +226,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   Future<void> _updateUserData(Map<String, dynamic> data) async {
     await _supabaseClient
-        .from('profiles')
+        .from('users')
         .update(data)
         .eq('id', _supabaseClient.auth.currentUser!.id);
   }
