@@ -55,6 +55,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await DataSourceUtils.checkInternetConnection(_connectivity);
       await _authClient.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.message ?? 'Password reset failed',
         statusCode: e.code,
@@ -100,6 +101,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       userData = await _getUserData(user.uid);
       return UserModel.fromMap(userData.data()!);
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.message ?? 'Authentication failed',
         statusCode: e.code,
@@ -141,6 +143,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       await _setUserData(_authClient.currentUser!, email);
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.message ?? 'Sign up failed',
         statusCode: e.code,
@@ -197,6 +200,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           await user.updatePassword(newData['newPassword'] as String);
       }
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.message ?? 'Update failed',
         statusCode: e.code,
@@ -272,6 +276,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return UserModel.fromMap(userData.data()!);
     } on FirebaseAuthException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(
         message: e.message ?? 'Google sign-in failed',
         statusCode: e.code,

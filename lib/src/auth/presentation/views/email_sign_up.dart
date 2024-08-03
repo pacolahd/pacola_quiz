@@ -67,26 +67,57 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoading) {
-            CoreUtils.showLoadingDialog(context);
-          } else {
-            // Dismiss the loading dialog if it's showing
-            Navigator.of(context).popUntil((route) => route is! DialogRoute);
+          //   if (state is AuthLoading) {
+          //     CoreUtils.showLoadingDialog(context);
+          //   } else {
+          //     // Dismiss the loading dialog if it's showing
+          //     Navigator.of(context).popUntil((route) => route is! DialogRoute);
+          //
+          //     if (state is AuthError) {
+          //       CoreUtils.showMessageDialog(
+          //         context,
+          //         title: 'Error',
+          //         message: state.message,
+          //         type: MessageType.error,
+          //       );
+          //     } else if (state is SignedUp) {
+          //       Navigator.pushReplacementNamed(
+          //         context,
+          //         EmailLogInScreen.routeName,
+          //       );
+          //     }
+          //   }
+          // },
 
-            if (state is AuthError) {
-              CoreUtils.showMessageDialog(
-                context,
-                title: 'Error',
-                message: state.message,
-                type: MessageType.error,
-              );
-            } else if (state is SignedUp) {
-              Navigator.pushReplacementNamed(
-                context,
-                EmailLogInScreen.routeName,
-              );
-            }
+          if (state is AuthError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          } else if (state is SignedUp) {
+            // If the user is signed up, we want to sign them in at once
+
+            Navigator.pushReplacementNamed(
+              context,
+              EmailLogInScreen.routeName,
+            );
+
+            // context.read<AuthBloc>().add(
+            //       SignInEvent(
+            //         email: emailController.text.trim(),
+            //         password: passwordController.text.trim(),
+            //       ),
+            //     );
           }
+          // else if (state is SignedIn) {
+          //   // if the user is signed in, we want to push them to the home screen
+          //   context.read<UserProvider>().initUser(state.user as LocalUserModel);
+          //   Navigator.pushReplacementNamed(
+          //     context,
+          //     CustomBottomNavBar.routeName,
+          //   );
+          // }
         },
         builder: (context, state) {
           // if (state is AuthLoading) {
@@ -242,36 +273,40 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                                 ],
                               ),
                               SizedBox(height: context.height * 0.02),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: AppColors.ui.darkBlue,
-                                  minimumSize: Size(double.infinity, 50),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                              if (state is AuthLoading)
+                                const Center(child: CircularProgressIndicator())
+                              else
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: AppColors.ui.darkBlue,
+                                    minimumSize: Size(double.infinity, 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
-                                ),
-                                child: const Text('Sign up'),
-                                onPressed: () {
-                                  CoreUtils.unfocusAllFields(context);
-                                  if (_signUpFormKey.currentState
-                                          ?.saveAndValidate() ??
-                                      false) {
-                                    final data =
-                                        _signUpFormKey.currentState?.value;
-                                    if (data != null) {
-                                      context.read<AuthBloc>().add(
-                                            SignUpEvent(
-                                              email: data['email'] as String,
-                                              password:
-                                                  data['password'] as String,
-                                              fullName: data['name'] as String,
-                                            ),
-                                          );
+                                  child: const Text('Sign up'),
+                                  onPressed: () {
+                                    CoreUtils.unfocusAllFields(context);
+                                    if (_signUpFormKey.currentState
+                                            ?.saveAndValidate() ??
+                                        false) {
+                                      final data =
+                                          _signUpFormKey.currentState?.value;
+                                      if (data != null) {
+                                        context.read<AuthBloc>().add(
+                                              SignUpEvent(
+                                                email: data['email'] as String,
+                                                password:
+                                                    data['password'] as String,
+                                                fullName:
+                                                    data['name'] as String,
+                                              ),
+                                            );
+                                      }
                                     }
-                                  }
-                                },
-                              ),
+                                  },
+                                ),
                               SizedBox(height: context.height * 0.03),
                               RichText(
                                 textAlign: TextAlign.center,
