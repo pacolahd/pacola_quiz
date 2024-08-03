@@ -22,7 +22,6 @@ class _TestState extends State<Test> {
               ),
               Text(context.userProvider.user?.fullName ?? 'No email'),
               Text('Test'),
-              Text('Testingf'),
             ],
           ),
         ),
