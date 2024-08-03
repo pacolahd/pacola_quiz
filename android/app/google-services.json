@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "241036114936",
+    "project_id": "pacola-quiz-1c59b",
+    "storage_bucket": "pacola-quiz-1c59b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241036114936:android:57010428978df6b6ed740d",
+        "android_client_info": {
+          "package_name": "com.pacolahd.pacola_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwKiljDQT2-_8BuUJcFs1dv1RVuxhIRf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241036114936:android:022f2a619512b20aed740d",
+        "android_client_info": {
+          "package_name": "com.pacolahd.paocla_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwKiljDQT2-_8BuUJcFs1dv1RVuxhIRf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
