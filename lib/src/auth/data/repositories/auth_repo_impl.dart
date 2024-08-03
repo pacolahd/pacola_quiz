@@ -1,4 +1,3 @@
-// lib/features/auth/data/repositories/auth_repository_impl.dart
 import 'package:dartz/dartz.dart';
 import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/errors/exceptions.dart';
@@ -23,16 +22,6 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
-    }
-  }
-
-  @override
-  ResultFuture<UserEntity> signInWithGoogle() async {
-    try {
-      final result = await _remoteDataSource.signInWithGoogle();
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
@@ -75,6 +64,16 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteDataSource.updateUser(action: action, userData: userData);
       return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    }
+  }
+
+  @override
+  ResultFuture<UserEntity> signInWithGoogle() async {
+    try {
+      final result = await _remoteDataSource.signInWithGoogle();
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     }

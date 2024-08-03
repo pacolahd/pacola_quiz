@@ -1,4 +1,3 @@
-// lib/features/auth/domain/repositories/auth_repository.dart
 import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
@@ -10,8 +9,6 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
-
-  ResultFuture<UserEntity> signInWithGoogle();
 
   ResultFuture<void> signUp({
     required String email,
@@ -25,4 +22,5 @@ abstract class AuthRepository {
     required UpdateUserAction action,
     required dynamic userData,
   });
+  ResultFuture<UserEntity> signInWithGoogle();
 }

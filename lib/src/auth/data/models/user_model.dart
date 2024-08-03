@@ -1,4 +1,3 @@
-// lib/features/auth/data/models/user_model.dart
 import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/domain/entities/user_entity.dart';
 
@@ -17,14 +16,13 @@ class UserModel extends UserEntity {
           fullName: '',
         );
 
-  factory UserModel.fromMap(DataMap map) {
-    return UserModel(
-      id: map['id'] as String,
-      email: map['email'] as String,
-      fullName: map['fullName'] as String,
-      profilePic: map['profile_pic'] as String?,
-    );
-  }
+  UserModel.fromMap(DataMap map)
+      : super(
+          id: map['id'] as String,
+          email: map['email'] as String,
+          fullName: map['fullName'] as String,
+          profilePic: map['profilePic'] as String?,
+        );
 
   UserModel copyWith({
     String? id,
@@ -45,7 +43,7 @@ class UserModel extends UserEntity {
       'id': id,
       'email': email,
       'fullName': fullName,
-      'profile_pic': profilePic,
+      'profilePic': profilePic,
     };
   }
 }

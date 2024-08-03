@@ -17,7 +17,7 @@ import 'package:pacola_quiz/src/auth/presentation/views/forgot_password_screen.d
 import 'package:pacola_quiz/src/dashboard/presentation/views/dashboard.dart';
 
 class EmailLogInScreen extends StatefulWidget {
-  const EmailLogInScreen({Key? key}) : super(key: key);
+  const EmailLogInScreen({super.key});
 
   static const routeName = '/email-login';
 

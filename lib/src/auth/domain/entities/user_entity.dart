@@ -8,10 +8,17 @@ class UserEntity extends Equatable {
     this.profilePic,
   });
 
+  const UserEntity.empty()
+      : this(
+          id: '',
+          email: '',
+          fullName: '',
+          profilePic: '',
+        );
+
   final String id;
   final String email;
   final String fullName;
-
   final String? profilePic;
 
   @override

@@ -15,13 +15,20 @@ import 'package:pacola_quiz/core/utils/typedefs.dart';
 import 'package:pacola_quiz/src/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> signIn({required String email, required String password});
+  const AuthRemoteDataSource();
+
+  Future<UserModel> signIn({
+    required String email,
+    required String password,
+  });
+
   Future<UserModel> signInWithGoogle();
   Future<void> signUp({
     required String email,
     required String fullName,
     required String password,
   });
+
   Future<void> forgotPassword(String email);
   Future<void> updateUser({
     required UpdateUserAction action,
@@ -60,7 +67,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         message: e.message ?? 'Password reset failed',
         statusCode: e.code,
       );
-    } catch (e) {
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
       throw ServerException(
         message: e.toString(),
         statusCode: '505',
@@ -173,7 +181,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           await _updateUserData({'email': userData});
         case UpdateUserAction.fullName:
           await user.updateDisplayName(userData as String);
-          await _updateUserData({'full_name': userData});
+          await _updateUserData({'fullName': userData});
         case UpdateUserAction.profilePic:
           final ref = _storageClient
               .ref()
@@ -182,7 +190,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           await ref.putFile(userData as File);
           final url = await ref.getDownloadURL();
           await user.updatePhotoURL(url);
-          await _updateUserData({'profile_pic': url});
+          await _updateUserData({'profilePic': url});
         case UpdateUserAction.password:
           if (user.email == null) {
             throw const ServerException(

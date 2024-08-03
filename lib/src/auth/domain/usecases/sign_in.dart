@@ -1,4 +1,3 @@
-// lib/features/auth/domain/usecases/sign_in.dart
 import 'package:equatable/equatable.dart';
 import 'package:pacola_quiz/core/usecases/usecases.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
@@ -22,6 +21,10 @@ class SignInParams extends Equatable {
     required this.email,
     required this.password,
   });
+
+  const SignInParams.empty()
+      : email = '',
+        password = '';
 
   final String email;
   final String password;

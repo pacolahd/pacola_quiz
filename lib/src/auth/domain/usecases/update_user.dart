@@ -1,4 +1,3 @@
-// lib/features/auth/domain/usecases/update_enums.dart
 import 'package:equatable/equatable.dart';
 import 'package:pacola_quiz/core/enums/update_enums.dart';
 import 'package:pacola_quiz/core/usecases/usecases.dart';
@@ -22,6 +21,9 @@ class UpdateUserParams extends Equatable {
     required this.action,
     required this.userData,
   });
+
+  const UpdateUserParams.empty()
+      : this(action: UpdateUserAction.fullName, userData: '');
 
   final UpdateUserAction action;
   final dynamic userData;
