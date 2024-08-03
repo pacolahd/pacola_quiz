@@ -27,7 +27,7 @@ class ResourceTile extends StatelessWidget {
                     : controller.downloadAndSaveFile,
                 icon: Icon(
                   controller.fileExists
-                      ? Icons.download_done_rounded
+                      ? Icons.folder_open_sharp
                       : Icons.download_rounded,
                 ),
               );
@@ -47,27 +47,7 @@ class ResourceTile extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Author',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    downloadButton,
-                  ],
-                ),
+                downloadButton,
                 if (!descriptionIsNull)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -54,7 +54,7 @@ class _CourseQuizzesViewState extends State<CourseQuizzesView> {
           } else if ((state is QuizzesLoaded && state.exams.isEmpty) ||
               state is QuizError) {
             return NotFoundText(
-              'No videos found for ${widget.course.title}',
+              'No quizzes found for ${widget.course.title}',
             );
           } else if (state is QuizzesLoaded) {
             return SafeArea(

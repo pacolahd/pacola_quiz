@@ -23,6 +23,7 @@ import 'package:pacola_quiz/src/course/features/materials/domain/repos/material_
 import 'package:pacola_quiz/src/course/features/materials/domain/usecases/add_material.dart';
 import 'package:pacola_quiz/src/course/features/materials/domain/usecases/get_materials.dart';
 import 'package:pacola_quiz/src/course/features/materials/domain/usecases/get_materials_for_quiz.dart';
+import 'package:pacola_quiz/src/course/features/materials/presentation/app/providers/resource_controller.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/data/datasources/quiz_remote_data_src.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/data/repos/quiz_repo_impl.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/domain/repos/quiz_repo.dart';

@@ -129,7 +129,7 @@ class _QuizViewState extends State<QuizView> {
                   return AlertDialog.adaptive(
                     title: const Text('Exit Quiz'),
                     content:
-                        const Text('Are you sure you want to Exit the exam'),
+                        const Text('Are you sure you want to Exit the quiz?'),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -141,7 +141,7 @@ class _QuizViewState extends State<QuizView> {
                         onPressed: () {
                           Navigator.pop(context, true);
                         },
-                        child: const Text('Exit exam'),
+                        child: const Text('Exit quiz'),
                       ),
                     ],
                   );

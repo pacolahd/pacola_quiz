@@ -60,9 +60,8 @@ class QuizModel extends Quiz {
           questions: List<DataMap>.from(map['questions'] as List<dynamic>)
               .map(QuizQuestionModel.fromUploadMap)
               .toList(),
-          createdBy: map['created_by'] as String,
-          materialIds:
-              List<String>.from(map['material_ids'] as List<dynamic>? ?? []),
+          createdBy: '',
+          materialIds: [],
         );
 
   QuizModel copyWith({

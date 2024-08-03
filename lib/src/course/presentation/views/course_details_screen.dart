@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pacola_quiz/core/common/widgets/course_info_tile.dart';
 import 'package:pacola_quiz/core/common/widgets/expandable_text.dart';
 import 'package:pacola_quiz/core/common/widgets/image_gradient_background.dart';
+import 'package:pacola_quiz/core/extensions/int_extensions.dart';
 import 'package:pacola_quiz/core/resources/media_resources.dart';
 import 'package:pacola_quiz/src/course/domain/entities/course.dart';
+import 'package:pacola_quiz/src/course/features/materials/presentation/views/course_materials_view.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/course_quiz_view.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
@@ -46,25 +49,42 @@ class CourseDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   if (course.description != null)
                     ExpandableText(context, text: course.description!),
-                  if (course.numberOfQuizzes > 0) ...[
+                  if (course.numberOfMaterials > 0 ||
+                       course.numberOfQuizzes > 0) ...[
                     const SizedBox(height: 20),
                     const Text(
-                      'Course Quizzes',
+                      'Subject Details',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    ListTile(
-                      leading: const Icon(Icons.quiz),
-                      title: Text('${course.numberOfQuizzes} Quiz(zes)'),
-                      subtitle: Text('Take quizzes for ${course.title}'),
-                      onTap: () => Navigator.of(context).pushNamed(
-                        CourseQuizzesView.routeName,
-                        arguments: course,
+                    if (course.numberOfQuizzes > 0) ...[
+                      const SizedBox(height: 10),
+                      CourseInfoTile(
+                        image: MediaRes.courseInfoExam,
+                        title: '${course.numberOfQuizzes} Exam(s)',
+                        subtitle: 'Take our exams for ${course.title}',
+                        onTap: () => Navigator.of(context).pushNamed(
+                          CourseQuizzesView.routeName,
+                          arguments: course,
+                        ),
                       ),
-                    ),
+                    ],
+                    if (course.numberOfMaterials > 0) ...[
+                      const SizedBox(height: 10),
+                      CourseInfoTile(
+                        image: MediaRes.courseInfoMaterial,
+                        title: '${course.numberOfMaterials} Material(s)',
+                        subtitle: 'Access to '
+                            '${course.numberOfMaterials.estimate} materials '
+                            'for ${course.title}',
+                        onTap: () => Navigator.of(context).pushNamed(
+                          CourseMaterialsView.routeName,
+                          arguments: course,
+                        ),
+                      ),
+                    ],
                   ],
                 ],
               ),

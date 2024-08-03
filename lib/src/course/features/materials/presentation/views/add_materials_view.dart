@@ -2,9 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide MaterialState;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pacola_quiz/core/common/widgets/course_picker.dart';
-import 'package:pacola_quiz/core/common/widgets/info_field.dart';
 import 'package:pacola_quiz/core/extensions/context_extensions.dart';
-import 'package:pacola_quiz/core/resources/theme/app_colors.dart';
 import 'package:pacola_quiz/core/utils/core_utils.dart';
 import 'package:pacola_quiz/src/course/domain/entities/course.dart';
 import 'package:pacola_quiz/src/course/features/materials/data/models/resource_model.dart';
@@ -93,21 +91,6 @@ class _AddAddMaterialsViewViewState extends State<AddMaterialsView> {
 
   bool showingLoader = false;
 
-  void setAuthor() {
-    if (authorSet) return;
-    final text = authorController.text.trim();
-    FocusManager.instance.primaryFocus?.unfocus();
-
-    final newResources = <PickedResource>[];
-    for (final resource in resources) {
-      newResources.add(resource);
-    }
-    setState(() {
-      resources = newResources;
-      authorSet = true;
-    });
-  }
-
   @override
   void dispose() {
     courseController.dispose();
@@ -153,28 +136,11 @@ class _AddAddMaterialsViewViewState extends State<AddMaterialsView> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  InfoField(
-                    controller: authorController,
-                    border: true,
-                    hintText: 'General Author',
-                    onChanged: (_) {
-                      if (authorSet) setState(() => authorSet = false);
-                    },
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        authorSet
-                            ? Icons.check_circle
-                            : Icons.check_circle_outline,
-                        color: authorSet ? Colors.green : Colors.grey,
-                      ),
-                      onPressed: setAuthor,
-                    ),
-                  ),
                   const SizedBox(height: 10),
                   Text(
                     'You can upload multiple materials at once.',
                     style: context.theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textColor.darkPrimary,
+                      color: Colors.orange,
                     ),
                   ),
                   const SizedBox(height: 10),

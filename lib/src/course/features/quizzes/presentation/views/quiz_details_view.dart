@@ -12,7 +12,7 @@ import 'package:pacola_quiz/src/course/features/quizzes/data/models/quiz_model.d
 import 'package:pacola_quiz/src/course/features/quizzes/domain/entities/quiz.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/app/cubit/quiz_cubit.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/app/cubit/quiz_state.dart';
-import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/exam_view.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/quiz_view.dart';
 
 class QuizDetailsView extends StatefulWidget {
   const QuizDetailsView(this.quiz, {super.key});

@@ -22,8 +22,8 @@ import 'package:pacola_quiz/src/course/features/quizzes/presentation/app/cubit/q
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/app/providers/quiz_controller.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/add_quiz_view.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/course_quiz_view.dart';
-import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/exam_view.dart';
 import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/quiz_details_view.dart';
+import 'package:pacola_quiz/src/course/features/quizzes/presentation/views/quiz_view.dart';
 import 'package:pacola_quiz/src/course/presentation/bloc/course_cubit.dart';
 import 'package:pacola_quiz/src/course/presentation/views/course_details_screen.dart';
 import 'package:pacola_quiz/src/dashboard/presentation/views/dashboard.dart';

@@ -62,7 +62,7 @@ class QuizRemoteDataSrcImpl implements QuizRemoteDataSrc {
       await DataSourceUtils.checkInternetConnection(_connectivity);
       await DataSourceUtils.authorizeUser(_auth);
 
-      final user = _auth.currentUser;
+      final user = _auth.currentUser!;
       final quizDocRef = _firestore
           .collection('courses')
           .doc(quiz.courseId)
@@ -71,7 +71,7 @@ class QuizRemoteDataSrcImpl implements QuizRemoteDataSrc {
 
       final quizToUpload = (quiz as QuizModel).copyWith(
         id: quizDocRef.id,
-        createdBy: user?.uid,
+        createdBy: user.uid,
       );
 
       await quizDocRef.set(quizToUpload.toMap());

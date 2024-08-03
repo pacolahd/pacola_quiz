@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pacola_quiz/core/common/widgets/course_picker.dart';
+import 'package:pacola_quiz/core/extensions/context_extensions.dart';
 import 'package:pacola_quiz/core/resources/media_resources.dart';
 import 'package:pacola_quiz/core/utils/core_utils.dart';
 import 'package:pacola_quiz/core/utils/typedefs.dart';
@@ -48,9 +49,11 @@ class _AddQuizViewState extends State<AddQuizView> {
     if (formKey.currentState!.validate()) {
       final json = examFile!.readAsStringSync();
       final jsonMap = jsonDecode(json) as DataMap;
-      final exam = QuizModel.fromUploadMap(jsonMap)
-          .copyWith(courseId: courseNotifier.value!.id);
-      await context.read<QuizCubit>().uploadQuiz(exam);
+      final quiz = QuizModel.fromUploadMap(jsonMap).copyWith(
+        courseId: courseNotifier.value!.id,
+        createdBy: context.userProvider.user?.id,
+      );
+      await context.read<QuizCubit>().uploadQuiz(quiz);
     }
   }
 
